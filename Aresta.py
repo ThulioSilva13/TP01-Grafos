@@ -2,7 +2,7 @@ class Aresta:
     def __init__(self, origem, destino, peso):
         self.origem = origem
         self.destino = destino
-        self.peso = 0
+        self.peso = peso
 
     def getOrigem(self):
         return self.origem
