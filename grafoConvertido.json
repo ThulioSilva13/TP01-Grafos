@@ -79,38 +79,60 @@
          "_data":{
             "1":{
                "from":1,
-               "to":3,
-               "id":1,
+               "to":2,
+               "label":"1.2",
+               "id":"1",
                "color":{
                   
                }
             },
             "2":{
                "from":1,
-               "to":2,
-               "id":2,
+               "to":5,
+               "label":"0.1",
+               "id":"2",
                "color":{
                   
                }
             },
             "3":{
                "from":2,
-               "to":4,
-               "id":3,
+               "to":5,
+               "label":"2.3",
+               "id":"3",
                "color":{
                   
                }
             },
             "4":{
-               "from":2,
-               "to":5,
-               "id":4,
+               "from":5,
+               "to":3,
+               "label":"-8.4",
+               "id":"4",
+               "color":{
+                  
+               }
+            },
+            "5":{
+               "from":5,
+               "to":4,
+               "label":"4.6",
+               "id":"5",
+               "color":{
+                  
+               }
+            },
+            "6":{
+               "from":3,
+               "to":4,
+               "label":"0.3",
+               "id":"6",
                "color":{
                   
                }
             }
          },
-         "length":4,
+         "length":6,
          "_idProp":"id",
          "_type":{
             
@@ -166,6 +188,6 @@
          "adaptiveTimestep":true
       }
    },
-   "ponderado":false,
+   "ponderado":true,
    "ordenado":false
 }

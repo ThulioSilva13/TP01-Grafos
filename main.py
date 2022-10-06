@@ -1,22 +1,15 @@
 import json
-from Aresta import Aresta
-
-from Vertice import Vertice
+from Grafo import Grafo
 
 with open('grafoConvertido.json', 'r') as fileJson:
     data = json.load(fileJson)
 
-listOrigin = []
-listDestiny = []
-origem = data['data']['edges']['_data']['1']['from']
-destino = data['data']['edges']['_data']['1']['to']
-peso = 0
-for chave, valor in data['data']['edges']['_data'].items():
-    listOrigin.append(data['data']['edges']['_data'][str(chave)]['from'])
-    listDestiny.append(data['data']['edges']['_data'][str(chave)]['to'])
-    #print("a chave é: ",chave)
-    #print("o valor é: ",valor)
-print(listOrigin)
-print(listDestiny)
-#aresta = Aresta(origem, destino, peso)
-#print("a primeira aresta começa no vetice",aresta.origem,"e vai até o vértice", aresta.destino)
+
+g = Grafo(5) 
+g.InsereAresta(1, 2, 1.2)
+g.InsereAresta(1, 5, 0.1)
+g.InsereAresta(2, 5, 2.3)
+g.InsereAresta(3, 5, -8.4)
+g.InsereAresta(3, 4, 0.3)
+g.InsereAresta(4, 5, 4.6)
+g.PrintList()
