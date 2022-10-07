@@ -72,4 +72,4 @@ class Grafo:
             if(i+1 == idVertice):
                 for j in range(len(self.grafo[i])):
                     listVizinhos.append(self.grafo[i][j][0])
-        print(listVizinhos)
+        return listVizinhos
