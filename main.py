@@ -18,3 +18,4 @@ g.PrintList()
 
 print("\nCaracteristicas do Grafo:")
 g.OrdemGrafo()
+g.TamanhoGrafo()

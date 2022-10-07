@@ -14,8 +14,13 @@ class Grafo:
         # quantidade de vertices do grafo
         print("- Ordem do Grafo = ",self.vertices)
         
-    #def TamanhoGrafo(self):
+    def TamanhoGrafo(self):
         # quantidade de arestas do grafo
+        tamanho = 0
+        for i in range(self.vertices):
+            for j in self.grafo[i]:
+                tamanho+=1
+        print("- Tamanho do Grafo = ",int(tamanho/2))
     
     #def VizinhosVertice(self, id):
         # dois vertices são vizinhos quando existe uma aresta que liga.
