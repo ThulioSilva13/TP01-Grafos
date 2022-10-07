@@ -4,7 +4,6 @@ from Grafo import Grafo
 with open('grafoConvertido.json', 'r') as fileJson:
     data = json.load(fileJson)
 
-
 g = Grafo(5) 
 g.InsereAresta(1, 2, 1.2)
 g.InsereAresta(1, 5, 0.1)
@@ -19,3 +18,8 @@ g.PrintList()
 print("\nCaracteristicas do Grafo:")
 g.OrdemGrafo()
 g.TamanhoGrafo()
+g.GrauVertice(1)
+g.GrauVertice(2)
+g.GrauVertice(3)
+g.GrauVertice(4)
+g.GrauVertice(5)

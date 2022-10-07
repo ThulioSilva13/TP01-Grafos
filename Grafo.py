@@ -26,7 +26,10 @@ class Grafo:
         # dois vertices são vizinhos quando existe uma aresta que liga.
 
     #def GrauVertice(self, id):
-        # numero de arestas incidentes no vertice de número=id
+        grau = 0
+        for i in self.grafo[id-1]:
+            grau+=1
+        print("- Grau do Vertice ",id," = ",grau)
         
     #def SequenciaGrausGrafo(self):
     
