@@ -18,3 +18,11 @@ class Grafo:
             for j in self.grafo[i]:
                 print(f'{j}  ->', end='  ')
             print('')
+
+    def EncontrarVizinhos(self, idVertice):
+        listVizinhos = []
+        for i in range(self.vertices):
+            if(i+1 == idVertice):
+                for j in range(len(self.grafo[i])):
+                    listVizinhos.append(self.grafo[i][j][0])
+        print(listVizinhos)
