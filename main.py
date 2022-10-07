@@ -12,4 +12,9 @@ g.InsereAresta(2, 5, 2.3)
 g.InsereAresta(3, 5, -8.4)
 g.InsereAresta(3, 4, 0.3)
 g.InsereAresta(4, 5, 4.6)
+
+print("\nGrafo:")
 g.PrintList()
+
+print("\nCaracteristicas do Grafo:")
+g.OrdemGrafo()
