@@ -10,9 +10,10 @@ class Grafo:
         self.grafo[origin -1].append([destiny, weight])
         self.grafo[destiny -1].append([origin, weight])
     
-    #def OrdemGrafo(self):
+    def OrdemGrafo(self):
         # quantidade de vertices do grafo
-
+        print("- Ordem do Grafo = ",self.vertices)
+        
     #def TamanhoGrafo(self):
         # quantidade de arestas do grafo
     
