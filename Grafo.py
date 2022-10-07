@@ -12,7 +12,7 @@ class Grafo:
     
     def OrdemGrafo(self):
         # quantidade de vertices do grafo
-        print("- Ordem do Grafo = ",self.vertices)
+        return self.vertices
         
     def TamanhoGrafo(self):
         # quantidade de arestas do grafo
@@ -20,7 +20,7 @@ class Grafo:
         for i in range(self.vertices):
             for j in self.grafo[i]:
                 tamanho+=1
-        print("- Tamanho do Grafo = ",int(tamanho/2))
+        return int(tamanho/2)
     
     #def VizinhosVertice(self, id):
         # dois vertices são vizinhos quando existe uma aresta que liga.
@@ -29,14 +29,11 @@ class Grafo:
         grau = 0
         for i in self.grafo[id-1]:
             grau+=1
-        print("- Grau do Vertice ",id," = ",grau)
+        return grau
         
     def SequenciaGrausGrafo(self):
-        print("- Sequencia de Graus do Vertice = [", end=' ')
         for i in range(self.vertices):
-            grau = 0
-            for j in self.grafo[i]:
-                grau+=1
+            grau = self.GrauVertice(i)
             if(i==(self.vertices-1)):
                 print(grau,"]")
             else:
