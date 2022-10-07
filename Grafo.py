@@ -25,13 +25,22 @@ class Grafo:
     #def VizinhosVertice(self, id):
         # dois vertices são vizinhos quando existe uma aresta que liga.
 
-    #def GrauVertice(self, id):
+    def GrauVertice(self, id):
         grau = 0
         for i in self.grafo[id-1]:
             grau+=1
         print("- Grau do Vertice ",id," = ",grau)
         
-    #def SequenciaGrausGrafo(self):
+    def SequenciaGrausGrafo(self):
+        print("- Sequencia de Graus do Vertice = [", end=' ')
+        for i in range(self.vertices):
+            grau = 0
+            for j in self.grafo[i]:
+                grau+=1
+            if(i==(self.vertices-1)):
+                print(grau,"]")
+            else:
+                print(grau,",", end=' ')
     
     #def ExentricidadeVertice(self, id):
         # maior distância entre ele e outro vértice do grafo
