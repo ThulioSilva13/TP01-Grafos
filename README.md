@@ -14,7 +14,7 @@
 * Determinar o grau de um vértice fornecido
 > O grau de um vértice em um grafo não direcionado é igual ao número de arestas incidentes no vértice.
 * Retornar a sequência de graus do grafo
-> A sequencia de graus é a sequencia do número de arestas incidentes em cada vertice do grafo.
+> A sequencia de graus é uma sequência monotônica não crescente dos graus dps vértices, ou seja, é o grau dos vérticem em ordem decrescente.
 * Determinar a excentricidade de um vértice
 > A excenticidade de um vértice é a maior distância entre ele e outro vértice do grafo. (E a distancia entre um par de vértices corresponde ao caminho(passeio sem repetição de vértices) de menor comprimento capaz de ligá-los).
 * Determinar o raio do grafo

@@ -32,12 +32,13 @@ class Grafo:
         return grau
         
     def SequenciaGrausGrafo(self):
+        seqGraus =[]
         for i in range(self.vertices):
             grau = self.GrauVertice(i)
-            if(i==(self.vertices-1)):
-                print(grau,"]")
-            else:
-                print(grau,",", end=' ')
+            seqGraus.append(grau)
+        seqGraus.sort(reverse=True) #ordenar graus em ordem decrescente
+        
+        print(seqGraus)
     
     #def ExentricidadeVertice(self, id):
         # maior distância entre ele e outro vértice do grafo
