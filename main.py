@@ -1,16 +1,30 @@
 import json
+import sys
 from Grafo import Grafo
 
-with open('grafoConvertido.json', 'r') as fileJson:
-    data = json.load(fileJson)
+# with open('grafoConvertido.json', 'r') as fileJson:
+#     data = json.load(fileJson)
 
-g = Grafo(5) 
-g.InsereAresta(1, 2, 1.2)
-g.InsereAresta(1, 5, 0.1)
-g.InsereAresta(2, 5, 2.3)
-g.InsereAresta(3, 5, -8.4)
-g.InsereAresta(3, 4, 0.3)
-g.InsereAresta(4, 5, 4.6)
+def lerArquivo():
+    nome_arquivo = sys.argv[1]
+    linhas = []
+    #nome_arquivo = "Grafo.txt"
+    arquivo = open(nome_arquivo)
+    aux = 0
+    for linha in arquivo.readlines():
+        if aux != 0:
+            linhas.append(list(map(float,linha.replace("\n","").split(" "))))
+        else:
+            qntdVertices = (int(linha.replace("\n","")))           
+        aux += 1
+    return [ qntdVertices, linhas]
+
+qntdVertices, linhas  = lerArquivo()
+
+g = Grafo(qntdVertices)
+
+for i in range(len(linhas)):
+    g.InsereAresta(int(linhas[i][0]), int(linhas[i][1]), float(linhas[i][2]))
 
 print("\nGrafo:")
 g.PrintList()
