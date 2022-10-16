@@ -52,10 +52,41 @@ class Grafo:
     #def CentroGrafo(self)
         # subconjunto dos vértices de exentricidade mínima.
 
-    #def BuscaProfundidade(self)
+    def BuscaProfundidade(self,v):
         # determinar sequencia de vertices visitados
         # informar arestas que nao fazem parte da arvore de busca em profundidade
-
+        marcados = [] #armazenar vertices marcados
+        exploradas = [] #armazenar arestas que já foram exploradas
+        profundidade = []
+        retorno = []
+        self.ProcedimentoBP(v,exploradas, marcados, profundidade, retorno)
+        print("arvore de profundidade = ",profundidade)
+        print("arestas retorno = ", retorno )
+    
+    def ProcedimentoBP(self,v,exploradas,marcados, profundidade, retorno):
+        id_v = v-1 #como lista começa no zero, vertice 1 esta na posiçao 0 da lista
+        
+        if not v in marcados:
+            marcados.append(v) #marcar vertice da vez
+        
+        vizinhos = self.EncontrarVizinhos(v) #guardar vizinhos do vertice
+        
+        for w in vizinhos:
+            aresta = []
+            aresta.append(v)
+            aresta.append(w)
+            aresta.sort() #como grafo nao direcioando armazenar ordenado 
+            if not w in marcados: #se vizinho ainda nao foi vizitado
+                exploradas.append(aresta) 
+                marcados.append(w) #marcar w como já vizitado
+                if not aresta in profundidade:
+                    profundidade.append(aresta)
+                self.ProcedimentoBP(w,exploradas, marcados, profundidade, retorno)
+            else:  #se vizinho ainda já foi vizitado
+                if not aresta in exploradas and not aresta in retorno:
+                    exploradas.append(aresta)
+                    retorno.append(aresta)
+    
     #def DistCaminhoMinimo(self)
     
     #def CentralidadeProxC(self)

@@ -38,3 +38,5 @@ for i in range (1, g.OrdemGrafo()+1):
     print("- Vizinhos do Vertice",i,"=",g.EncontrarVizinhos(i))
 print("- Sequencia de Graus do Vertice =",end=' ')
 g.SequenciaGrausGrafo()
+print("- Busca em Profundidade:")
+g.BuscaProfundidade(1)
