@@ -1,3 +1,4 @@
+import math
 import Vertice
 
 class Grafo:
@@ -106,3 +107,59 @@ class Grafo:
                     listVizinhos.append(self.grafo[i][j][0])
         listVizinhos.sort()
         return listVizinhos
+    
+    def EncontrarPesoVizinhos(self, idVertice):
+        pesos = []
+        for i in range(self.vertices):
+            if(i+1 == idVertice):
+                for j in range(len(self.grafo[i])):
+                    pesos.append(self.grafo[i][j][1])
+        return pesos
+    
+    def floydWarshall(self):
+        v = self.vertices + 1 # +1 pra poder ignorar linha e coluna 0
+        dt = [[0 for i in range (v)] for j in range (v)] 
+        rot = [[0 for i in range (v)] for j in range (v)] 
+
+        #inicializar matriz dt(L) e matriz rot(R) 
+        for i in range (1,v):
+            vizinhos = self.EncontrarVizinhos(i)
+            pesos = self.EncontrarPesoVizinhos(i)
+            #print("vizinhos = ", vizinhos)
+            #print("print = ", pesos)
+             
+            for j in range(1,v):
+                if i==j:
+                    dt[i][j] = 0
+                    rot[i][j] = i 
+                else:
+                    if (j) in vizinhos: #se existe aresta (i,j)
+                        dt[i][j] = pesos[vizinhos.index(j)]
+                        rot[i][j] = i 
+                    else:
+                        dt[i][j] = math.inf
+                        rot[i][j] =  0
+        
+        print("\n Inicialização:") 
+        print("\ndt:")
+        for i in range (1,v):
+            print(dt[i])
+        print("\nrot:")
+        for i in range (1,v):
+            print(rot[i])
+        
+        #tentar caminho intermediario
+        for k in range(1,v):
+            for i in range(1,v):
+                for j in range(1,v):
+                    if dt[i][j] > (dt[i][k] + dt[k][j]):
+                        dt[i][j] = (dt[i][k] + dt[k][j])
+                        rot[i][j] = rot[k][j]
+                        
+        print("\n Resultado Final") 
+        print("\ndt:")
+        for i in range (1,v):
+            print(dt[i])
+        print("\nrot:")
+        for i in range (1,v):
+            print(rot[i])
