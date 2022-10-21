@@ -28,6 +28,7 @@ for i in range(len(linhas)):
 
 print("\nGrafo:")
 g.PrintList()
+g.floydWarshall()
 
 print("\nCaracteristicas do Grafo:")
 print("- Ordem do Grafo =",g.OrdemGrafo())
@@ -40,5 +41,16 @@ print("- Sequencia de Graus do Vertice =",end=' ')
 g.SequenciaGrausGrafo()
 print("- Busca em Profundidade:")
 g.BuscaProfundidade(1)
-print("- Matrizes Algoritmo Floyd-Warshall:")
-g.floydWarshall()
+
+g.CaminhoMinimo(1,1)
+g.CaminhoMinimo(1,2)
+g.CaminhoMinimo(1,3)
+g.CaminhoMinimo(1,4)
+g.CaminhoMinimo(1,5)
+print("Exentricidade: ",g.ExentricidadeVertice(1))
+print("Raio:", g.RaioGrafo())
+print("Diametro:")
+g.DiametroGrafo()
+print("Cntro:")
+g.CentroGrafo()
+
