@@ -8,84 +8,111 @@ class Grafo:
         self.dt = [[]]  
         self.rot = [[]] 
 
-    def InsereAresta(self, origin, destiny, weight):
+    def insereAresta(self, origem, destino, peso):
         #acessar primeira posicao da lista(posicao 0), por isso origin-1
-        self.grafo[origin -1].append([destiny, weight])
-        self.grafo[destiny -1].append([origin, weight])
+        self.grafo[origem -1].append([destino, peso])
+        self.grafo[destino -1].append([origem, peso])
     
-    def OrdemGrafo(self):
+    def imprimirListaAdjacencia(self):
+        for i in range(self.vertices):
+            print(f'{i+1}:', end='  ')
+            for j in self.grafo[i]:
+                print(f'{j}  ->', end='  ')
+            print('')
+    
+    def ordemGrafo(self):
         # quantidade de vertices do grafo
         return self.vertices
         
-    def TamanhoGrafo(self):
+    def tamanhoGrafo(self):
         # quantidade de arestas do grafo
         tamanho = 0
         for i in range(self.vertices):
             for j in self.grafo[i]:
                 tamanho+=1
-        return int(tamanho/2)
+        return int(tamanho/2) #/ 2 pois como nao orientado cada aresta aparece duas vezes na lista
+    
+    def encontrarVizinhos(self, idVertice):
+        # dois vertices são vizinhos quando existe uma aresta que os liga.
+        listaVizinhos = []
+        for i in range(self.vertices):
+            if(i+1 == idVertice):
+                for j in range(len(self.grafo[i])):
+                    listaVizinhos.append(self.grafo[i][j][0])
+        listaVizinhos.sort()
+        return listaVizinhos
+    
+    def encontrarPesoVizinhos(self, idVertice):
+        #funcao auxiliar para armazenar peso das arestas no mesma ordem que os vizinhos foram armazenados
+        pesos = []
+        for i in range(self.vertices):
+            if(i+1 == idVertice):
+                for j in range(len(self.grafo[i])):
+                    pesos.append(self.grafo[i][j][1])
+        return pesos
 
-    def GrauVertice(self, id):
+    def grauVertice(self, id):
+        # grau de um vértice em um grafo não direcionado é o número de arestas incidentes no vértice
         grau = 0
         for i in self.grafo[id-1]:
             grau+=1
         return grau
         
-    def SequenciaGrausGrafo(self):
-        seqGraus =[]
+    def sequenciaGrausGrafo(self):
+        # sequencia de graus é uma sequência monotônica não crescente dos graus dos vértices, ou seja, é o grau dos vérticem em ordem decrescente
+        sequenciaGraus = []
         for i in range(self.vertices):
-            grau = self.GrauVertice(i)
-            seqGraus.append(grau)
-        seqGraus.sort(reverse=True) #ordenar graus em ordem decrescente
+            grau = self.grauVertice(i)
+            sequenciaGraus.append(grau)
+        sequenciaGraus.sort(reverse=True) #ordenar graus em ordem decrescente
         
-        print(seqGraus)
+        return(sequenciaGraus)
     
-    def ExentricidadeVertice(self, id):
+    def exentricidadeVertice(self, id):
         # maior distância entre ele e outro vértice do grafo
-        exe = max(self.dt[id])
+        exe = max(self.dt[id-1]) #-1 pois vertice 1 esta no indece 0 da matriz
         return(exe)
     
-    def RaioGrafo(self):
+    def raioGrafo(self):
         # menor valor de excentricidade para to vértice pertencente ao conjunto de vértices do grafo, ou seja, calcula-se a exentricidade de todos os vértices do grafo e pega o menor valor.       
         excentricidades = []
         for i in range(self.vertices):
-            excentricidades.append(self.ExentricidadeVertice(i))
+            excentricidades.append(self.exentricidadeVertice(i+1))
         return(min(excentricidades))
         
-    def DiametroGrafo(self):
+    def diametroGrafo(self):
         # maior valor de excentricidade para to vértice pertencente ao conjunto de vértices do grafo, ou seja, calcula-se a exentricidade de todos os vértices do grafo e pega o maior valor.    
         excentricidades = []
         for i in range(self.vertices):
-            excentricidades.append(self.ExentricidadeVertice(i))
-        print(max(excentricidades))
+            excentricidades.append(self.exentricidadeVertice(i+1))
+        return(max(excentricidades))
         
-    def CentroGrafo(self):
+    def centroGrafo(self):
         # subconjunto dos vértices de exentricidade mínima.
         centro=[]
-        raio = self.RaioGrafo()
+        raio = self.raioGrafo()
         for i in range(self.vertices):
-            if (self.ExentricidadeVertice(i) == raio):
+            if (self.exentricidadeVertice(i+1) == raio): #+1 pois no inde 0 esta o vertice 1
                 centro.append(i)
-        print(centro)
+        return(centro)
 
-    def BuscaProfundidade(self,v):
+    def buscaProfundidade(self,v):
         # determinar sequencia de vertices visitados
         # informar arestas que nao fazem parte da arvore de busca em profundidade
         marcados = [] #armazenar vertices marcados
         exploradas = [] #armazenar arestas que já foram exploradas
         profundidade = []
         retorno = []
-        self.ProcedimentoBP(v,exploradas, marcados, profundidade, retorno)
-        print("arvore de profundidade = ",profundidade)
-        print("arestas retorno = ", retorno )
+        self.procedimentoBP(v,exploradas, marcados, profundidade, retorno)
+        #print("arvore de profundidade = ",profundidade)
+        #print("arestas retorno = ", retorno )
+        return profundidade, retorno
     
-    def ProcedimentoBP(self,v,exploradas,marcados, profundidade, retorno):
-        id_v = v-1 #como lista começa no zero, vertice 1 esta na posiçao 0 da lista
-        
+    def procedimentoBP(self,v,exploradas,marcados, profundidade, retorno):        
         if not v in marcados:
             marcados.append(v) #marcar vertice da vez
         
-        vizinhos = self.EncontrarVizinhos(v) #guardar vizinhos do vertice
+        vizinhos = self.encontrarVizinhos(v) #guardar vizinhos do vertice
         
         for w in vizinhos:
             aresta = []
@@ -97,111 +124,92 @@ class Grafo:
                 marcados.append(w) #marcar w como já vizitado
                 if not aresta in profundidade:
                     profundidade.append(aresta)
-                self.ProcedimentoBP(w,exploradas, marcados, profundidade, retorno)
+                self.procedimentoBP(w,exploradas, marcados, profundidade, retorno)
             else:  #se vizinho ainda já foi vizitado
                 if not aresta in exploradas and not aresta in retorno:
                     exploradas.append(aresta)
                     retorno.append(aresta)
     
-    def PrintList(self):
-        for i in range(self.vertices):
-            print(f'{i+1}:', end='  ')
-            for j in self.grafo[i]:
-                print(f'{j}  ->', end='  ')
-            print('')
-
-    def EncontrarVizinhos(self, idVertice):
-        # dois vertices são vizinhos quando existe uma aresta que liga.
-        listVizinhos = []
-        for i in range(self.vertices):
-            if(i+1 == idVertice):
-                for j in range(len(self.grafo[i])):
-                    listVizinhos.append(self.grafo[i][j][0])
-        listVizinhos.sort()
-        return listVizinhos
-    
-    def EncontrarPesoVizinhos(self, idVertice):
-        pesos = []
-        for i in range(self.vertices):
-            if(i+1 == idVertice):
-                for j in range(len(self.grafo[i])):
-                    pesos.append(self.grafo[i][j][1])
-        return pesos
-    
-    def CicloNegativo(self):
+    def verificaCicloNegativo(self):
         for i in range (self.vertices):
             for j in range (self.vertices):
                 if (i==j and self.dt[i][j]<0):
-                    return True
-        return False
+                    return 1
+        return 0
     
-    def CaminhoMinimo(self,origem,destino):
-        flag = self.CicloNegativo()
-        if (flag):
-            print("Ciclo Negativo") 
-            return           
-                     
+    def distancia(self,origem,destino):
+        return(self.dt[origem-1][destino-1]) #-1 pois vertice 1 esta no indice 0
+    
+    
+    def caminhoMinimo(self,origem,destino):      
+      
         caminho = []
         caminho.append(destino)
-        i = self.rot[origem][destino]
+        i = self.rot[origem-1][destino-1]
         while(True):
             caminho.append(i)
             if i == origem:
                 break
             else:
-                i = self.rot[origem][i]
+                i = self.rot[origem-1][i-1]
         
         caminho.reverse()
-            
-        print("Distancia entre ",origem,"e",destino," :",self.dt[origem][destino])
-        print("Caminho minimo entre",origem,"e",destino," :",caminho)
+        return(caminho)
+    
+    #def CentralidadeProxC(self)
     
     def floydWarshall(self):
-        v = self.vertices + 1 # +1 pra poder ignorar linha e coluna 0
-        self.dt = [[0 for i in range (v)] for j in range (v)] 
-        self.rot = [[0 for i in range (v)] for j in range (v)] 
+        v = self.vertices
+        self.dt = [[0 for i in range (self.vertices)] for j in range (v)] 
+        self.rot = [[0 for i in range (self.vertices)] for j in range (v)] 
+        
+        '''
+        como a matriz vai de 0 a v-1
+        vertice 1 está no indece 0
+        '''
 
-        #inicializar matriz dt(L) e matriz rot(R) 
-        for i in range (1,v):
-            vizinhos = self.EncontrarVizinhos(i)
-            pesos = self.EncontrarPesoVizinhos(i)
-            #print("vizinhos = ", vizinhos)
-            #print("print = ", pesos)
+        #inicializar matriz dt(L) e a matriz rot(R) 
+        for i in range (v):
+            
+            # i = id_vertice -
+            
+            vizinhos = self.encontrarVizinhos(i+1) 
+            pesos = self.encontrarPesoVizinhos(i+1)
              
-            for j in range(1,v):
+            for j in range (v):
                 if i==j:
                     self.dt[i][j] = 0
-                    self.rot[i][j] = i 
+                    self.rot[i][j] = i+1 #em vez do indice vai receber o indice 
                 else:
-                    if (j) in vizinhos: #se existe aresta (i,j)
-                        self.dt[i][j] = pesos[vizinhos.index(j)]
-                        self.rot[i][j] = i 
+                    if (j+1) in vizinhos: #j+1 pois quando j=0 quero olhar se vertice 1 é vizinho
+                        self.dt[i][j] = pesos[vizinhos.index(j+1)]
+                        self.rot[i][j] = i+1 #lembrar que i=0 indica vertice 1
                     else:
                         self.dt[i][j] = math.inf
                         self.rot[i][j] =  0
         
         print("\n Inicialização:") 
         print("\ndt:")
-        for i in range (1,v):
+        for i in range (v):
             print(self.dt[i])
         print("\nrot:")
-        for i in range (1,v):
+        for i in range (v):
             print(self.rot[i])
         
         #tentar caminho intermediario
-        for k in range(1,v):
-            for i in range(1,v):
-                for j in range(1,v):
+        for k in range(v):
+            for i in range(v):
+                for j in range(v):
                     if self.dt[i][j] > (self.dt[i][k] + self.dt[k][j]):
                         self.dt[i][j] = (self.dt[i][k] + self.dt[k][j])
                         self.rot[i][j] = self.rot[k][j]
                         
         print("\n Resultado Final") 
         print("\ndt:")
-        for i in range (1,v):
+        for i in range (v):
             print(self.dt[i])
         print("\nrot:")
-        for i in range (1,v):
+        for i in range (v):
             print(self.rot[i])
             
-    #def CentralidadeProxC(self)
+    

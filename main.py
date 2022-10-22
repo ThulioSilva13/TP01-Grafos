@@ -24,33 +24,55 @@ qntdVertices, linhas  = lerArquivo()
 g = Grafo(qntdVertices)
 
 for i in range(len(linhas)):
-    g.InsereAresta(int(linhas[i][0]), int(linhas[i][1]), float(linhas[i][2]))
+    g.insereAresta(int(linhas[i][0]), int(linhas[i][1]), float(linhas[i][2]))
 
 print("\nGrafo:")
-g.PrintList()
+g.imprimirListaAdjacencia()
 g.floydWarshall()
 
+print("-------------------------------------------------------------------------")
 print("\nCaracteristicas do Grafo:")
-print("- Ordem do Grafo =",g.OrdemGrafo())
-print("- Tamanho do Grafo =",g.TamanhoGrafo())
-for i in range (1, g.OrdemGrafo()+1):
-    print("- Grau do Vertice",i,"=",g.GrauVertice(i))
-for i in range (1, g.OrdemGrafo()+1):
-    print("- Vizinhos do Vertice",i,"=",g.EncontrarVizinhos(i))
-print("- Sequencia de Graus do Vertice =",end=' ')
-g.SequenciaGrausGrafo()
-print("- Busca em Profundidade:")
-g.BuscaProfundidade(1)
 
-g.CaminhoMinimo(1,1)
-g.CaminhoMinimo(1,2)
-g.CaminhoMinimo(1,3)
-g.CaminhoMinimo(1,4)
-g.CaminhoMinimo(1,5)
-print("Exentricidade: ",g.ExentricidadeVertice(1))
-print("Raio:", g.RaioGrafo())
-print("Diametro:")
-g.DiametroGrafo()
-print("Cntro:")
-g.CentroGrafo()
+print("\n- Ordem do Grafo: ",g.ordemGrafo())
+
+print("\n- Tamanho do Grafo: ",g.tamanhoGrafo())
+
+print()
+for i in range (1, g.ordemGrafo()+1):
+    print("- Vizinhos do Vertice",i,": ",g.encontrarVizinhos(i))
+
+print()
+for i in range (1, g.ordemGrafo()+1):
+    print("- Grau do Vertice",i,": ",g.grauVertice(i))
+    
+print("\n- Sequencia de Graus do Vertice : ",g.sequenciaGrausGrafo())
+
+print("\n- Busca em Profundidade: ")
+inicio = 1
+profundidade, retorno = g.buscaProfundidade(inicio)
+print("-- Arvore de Profundidade: ",profundidade)
+print("-- Arestas de Retorno: ", retorno )
+
+
+print("\n- Distancia e Caminho Minimo: ")
+flag = g.verificaCicloNegativo()
+if (flag==1):
+    print("ERRO: Impossivel calcular distancia entre vertices pois grafo com Ciclo Negativo!")
+    print("ERRO: Impossivel calcular caminho minimo entre vertices pois grafo com Ciclo Negativo!")
+    
+else:
+    origem = 1
+    for i in range (1,6):
+        print()
+        destino = i
+        print("- Distancia entre ",origem,"e",destino,":",g.distancia(origem,destino))
+        print("- Caminho minimo entre",origem,"e",destino,":",g.caminhoMinimo(origem,destino))
+
+print()
+for i in range (g.ordemGrafo()):
+    print("- Exentricidade do Vertice",i,": ",g.exentricidadeVertice(i+1))
+    
+print("\n- Raio do Grafo:", g.raioGrafo())
+print("\n- Diametro do Grafo:",g.diametroGrafo())
+print("\n- Centro do Grafo:",g.centroGrafo())
 
