@@ -2,12 +2,16 @@ import math
 import Vertice
 
 class Grafo:
-    def __init__(self, vertices):
-        self.vertices = vertices
-        self.grafo = [[] for i in range(self.vertices)] #lista de adjacencia 
+    def __init__(self):
+        self.vertices = 0
+        self.grafo = [[]] #lista de adjacencia 
         self.dt = [[]]  
         self.rot = [[]] 
-
+        
+    def inicializaListaAdjacencia(self, qtdeVertices):
+        self.vertices = qtdeVertices
+        self.grafo = [[] for i in range(self.vertices)]
+        
     def insereAresta(self, origem, destino, peso):
         #acessar primeira posicao da lista(posicao 0), por isso origin-1
         self.grafo[origem -1].append([destino, peso])
@@ -142,7 +146,6 @@ class Grafo:
     
     
     def caminhoMinimo(self,origem,destino):      
-      
         caminho = []
         caminho.append(destino)
         i = self.rot[origem-1][destino-1]
