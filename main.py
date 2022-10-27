@@ -64,6 +64,8 @@ def inicializarGrafo(qntdVertices, linhas):
     print("\nGrafo:")
     g.imprimirListaAdjacencia()
     g.floydWarshall()
+    g.verificaCicloNegativo() #já conferi se é ciclo negativo
+    print(g.cicloNegativo)
 
 def menuFuncoes():
     while True:
@@ -79,7 +81,7 @@ def menuFuncoes():
         print("[  7 ] | RAIO DO GRAFO")
         print("[  8 ] | DIÂMETRO DO GRAFO")
         print("[  9 ] | CENTRO DO GRAFO")
-        print("[ 10 ] | VÉRTICES VIZITADOS NA BUSCA EM PROFUNDIDADE E ARESTAS DE RETORNO")
+        print("[ 10 ] | BUSCA EM PROFUNDIDADE")
         print("[ 11 ] | DISTANCIA E CAMINHO MÍNIMO")
         print("[ 12 ] | CENTRALIDADE DE PROXIMIDADE C DE UM VÉTICE X")
         print("[ 13 ] | ENCERRAR")
@@ -113,31 +115,42 @@ def menuFuncoes():
             print("\n- Sequencia de Graus do Grafo: ",g.sequenciaGrausGrafo())
              
         elif escolha == 6:
-            print("\nEntre com o vértice que deseja saber sua excentricidade: ", end = " ")
-            v = int(input())
-            print("- Exentricidade do Vertice",v,": ",g.exentricidadeVertice(v))         
+            if (g.cicloNegativo==1):
+                print("ERRO: Impossivel calcular exentricidade de um vértice pois grafo com Ciclo Negativo!") 
+            else:
+                print("\nEntre com o vértice que deseja saber sua excentricidade: ", end = " ")
+                v = int(input())
+                print("- Exentricidade do Vertice",v,": ",g.exentricidadeVertice(v))         
         
         elif escolha == 7:
-            print("\n- Raio do Grafo:", g.raioGrafo())
+            if (g.cicloNegativo==1):
+                print("ERRO: Impossivel calcular o raio do grafo pois grafo com Ciclo Negativo!") 
+            else:
+                print("\n- Raio do Grafo:", g.raioGrafo())
 
         elif escolha == 8:
-           print("\n- Diametro do Grafo:",g.diametroGrafo())
+            if (g.cicloNegativo==1):
+                print("ERRO: Impossivel calcular o diametro do grafo pois grafo com Ciclo Negativo!") 
+            else:
+                print("\n- Diametro do Grafo:",g.diametroGrafo())
 
 
         elif escolha == 9:
-            print("\n- Centro do Grafo:",g.centroGrafo())
+            if (g.cicloNegativo==1):
+                print("ERRO: Impossivel calcular o centro do grafo pois grafo com Ciclo Negativo!") 
+            else:
+                print("\n- Centro do Grafo:",g.centroGrafo())
             
         elif escolha == 10:
             print("\nEntre com o vértice que deseja começar a busca em profundidade: ", end = " ")
             v = int(input())
             # corrigir para vertices vizitados e nao arestas de profundidade
-            profundidade, retorno = g.buscaProfundidade(v)
-            print("- Vértices vizitados na Busca em Profundidade: ",profundidade)
+            marcados, retorno = g.buscaProfundidade(v)
+            print("- Vértices vizitados na Busca em Profundidade: ",marcados)
             print("- Arestas de Retorno: ", retorno )
         
         elif escolha == 11:
-            flag = g.verificaCicloNegativo()
-            if (flag==1):
+            if (g.cicloNegativo==1):
                 print("ERRO: Impossivel calcular distancia e caminho mínimo entre vertices pois grafo com Ciclo Negativo!")  
             else:
                 print("\nEntre com o vértice de origem: ", end = " ")
@@ -149,7 +162,12 @@ def menuFuncoes():
                 print("- Caminho minimo entre",origem,"e",destino,":",g.caminhoMinimo(origem,destino))
 
         elif escolha == 12:
-            print("!!! implementar funcao para calcular !!!")
+            if (g.cicloNegativo==1):
+                print("ERRO: Impossivel calcular centralidade de proximidade do vertice pois grafo com Ciclo Negativo!") 
+            else: 
+                print("\nEntre com o vértice que deseja calcular a centralidade: ", end = " ")
+                v = int(input())
+                print("- Centralidade de Proximidade do vértice",v,"é:",g.CentralidadeProxC(v))
         
         elif escolha == 13:
             break

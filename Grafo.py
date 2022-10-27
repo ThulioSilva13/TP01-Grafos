@@ -7,6 +7,7 @@ class Grafo:
         self.grafo = [[]] #lista de adjacencia 
         self.dt = [[]]  
         self.rot = [[]] 
+        self.cicloNegativo = 0
         
     def inicializaListaAdjacencia(self, qtdeVertices):
         self.vertices = qtdeVertices
@@ -95,9 +96,9 @@ class Grafo:
         # subconjunto dos vértices de exentricidade mínima.
         centro=[]
         raio = self.raioGrafo()
-        for i in range(self.vertices):
-            if (self.exentricidadeVertice(i+1) == raio): #+1 pois no inde 0 esta o vertice 1
-                centro.append(i)
+        for i in range(1,self.vertices+1): #+1 pois no inde 0 esta o vertice 1
+            if (self.exentricidadeVertice(i) == raio): 
+                centro.append(i) #
         return(centro)
 
     def buscaProfundidade(self,v):
@@ -108,9 +109,8 @@ class Grafo:
         profundidade = []
         retorno = []
         self.procedimentoBP(v,exploradas, marcados, profundidade, retorno)
-        #print("arvore de profundidade = ",profundidade)
-        #print("arestas retorno = ", retorno )
-        return profundidade, retorno
+
+        return marcados, retorno
     
     def procedimentoBP(self,v,exploradas,marcados, profundidade, retorno):        
         if not v in marcados:
@@ -134,16 +134,8 @@ class Grafo:
                     exploradas.append(aresta)
                     retorno.append(aresta)
     
-    def verificaCicloNegativo(self):
-        for i in range (self.vertices):
-            for j in range (self.vertices):
-                if (i==j and self.dt[i][j]<0):
-                    return 1
-        return 0
-    
     def distancia(self,origem,destino):
         return(self.dt[origem-1][destino-1]) #-1 pois vertice 1 esta no indice 0
-    
     
     def caminhoMinimo(self,origem,destino):      
         caminho = []
@@ -159,8 +151,16 @@ class Grafo:
         caminho.reverse()
         return(caminho)
     
-    #def CentralidadeProxC(self)
-    
+    def CentralidadeProxC(self, vertice):
+        N = (self.vertices)
+        somatorio = 0
+        for i in range (N):
+            somatorio += self.dt[vertice][i] #somar a distancia do vertice a todos os outros do grafo
+        
+        print(somatorio)
+        c = (N-1)/somatorio
+        return(c)
+       
     def floydWarshall(self):
         v = self.vertices
         self.dt = [[0 for i in range (self.vertices)] for j in range (v)] 
@@ -215,4 +215,11 @@ class Grafo:
         for i in range (v):
             print(self.rot[i])
             
+    def verificaCicloNegativo(self):
+        for i in range (self.vertices):
+            for j in range (self.vertices):
+                if (i==j and self.dt[i][j]<0):
+                    self.cicloNegativo = 1
+                    break
+          
     
