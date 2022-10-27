@@ -5,6 +5,8 @@ from Grafo import Grafo
 # with open('grafoConvertido.json', 'r') as fileJson:
 #     data = json.load(fileJson)
 
+g = Grafo()
+
 def lerArquivo():
     nome_arquivo = sys.argv[1]
     linhas = []
@@ -17,19 +19,19 @@ def lerArquivo():
         else:
             qntdVertices = (int(linha.replace("\n","")))           
         aux += 1
-    return [ qntdVertices, linhas]
+    
+    inicializarGrafo(qntdVertices, linhas)
 
-qntdVertices, linhas  = lerArquivo()
+def inicializarGrafo(qntdVertices, linhas):
+    g.inicializaListaAdjacencia(qntdVertices)
+    for i in range(len(linhas)):
+        g.insereAresta(int(linhas[i][0]), int(linhas[i][1]), float(linhas[i][2]))
+    print("\nGrafo:")
+    g.imprimirListaAdjacencia()
+    g.floydWarshall()
+    g.verificaCicloNegativo() #já conferir se tem ciclo negativo
 
-g = Grafo(qntdVertices)
-
-for i in range(len(linhas)):
-    g.insereAresta(int(linhas[i][0]), int(linhas[i][1]), float(linhas[i][2]))
-
-print("\nGrafo:")
-g.imprimirListaAdjacencia()
-g.floydWarshall()
-g.verificaCicloNegativo() #já conferir se tem ciclo negativo
+lerArquivo()
 
 print("-------------------------------------------------------------------------")
 print("\nCaracteristicas do Grafo:")
