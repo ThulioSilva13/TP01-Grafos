@@ -92,8 +92,8 @@ class Grafo:
         # subconjunto dos vértices de exentricidade mínima.
         centro=[]
         raio = self.raioGrafo()
-        for i in range(self.vertices):
-            if (self.exentricidadeVertice(i+1) == raio): #+1 pois no inde 0 esta o vertice 1
+        for i in range(1,self.vertices+1): 
+            if (self.exentricidadeVertice(i) == raio): 
                 centro.append(i)
         return(centro)
 
@@ -107,7 +107,7 @@ class Grafo:
         self.procedimentoBP(v,exploradas, marcados, profundidade, retorno)
         #print("arvore de profundidade = ",profundidade)
         #print("arestas retorno = ", retorno )
-        return profundidade, retorno
+        return marcados, retorno
     
     def procedimentoBP(self,v,exploradas,marcados, profundidade, retorno):        
         if not v in marcados:

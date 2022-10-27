@@ -50,8 +50,8 @@ print("\n- Sequencia de Graus do Vertice : ",g.sequenciaGrausGrafo())
 
 print("\n- Busca em Profundidade: ")
 inicio = 1
-profundidade, retorno = g.buscaProfundidade(inicio)
-print("-- Arvore de Profundidade: ",profundidade)
+vizitados, retorno = g.buscaProfundidade(inicio)
+print("-- Vértices vizitados na Busca em Profundidade: ",vizitados)
 print("-- Arestas de Retorno: ", retorno )
 
 print()
@@ -72,8 +72,8 @@ else:
         print("- Distancia entre ",origem,"e",destino,":",g.distancia(origem,destino))
         print("- Caminho minimo entre",origem,"e",destino,":",g.caminhoMinimo(origem,destino))
 
-    for i in range (g.ordemGrafo()):
-        print("- Exentricidade do Vertice",i,": ",g.exentricidadeVertice(i+1))
+    for i in range (1,g.ordemGrafo()+1):
+        print("- Exentricidade do Vertice",i,": ",g.exentricidadeVertice(i))
     
     print("\n- Raio do Grafo:", g.raioGrafo())
     print("\n- Diametro do Grafo:",g.diametroGrafo())
