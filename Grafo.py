@@ -6,7 +6,8 @@ class Grafo:
         self.vertices = vertices
         self.grafo = [[] for i in range(self.vertices)] #lista de adjacencia 
         self.dt = [[]]  
-        self.rot = [[]] 
+        self.rot = [[]]
+        self.cicloNegativo = 0 
 
     def insereAresta(self, origem, destino, peso):
         #acessar primeira posicao da lista(posicao 0), por isso origin-1
@@ -134,8 +135,8 @@ class Grafo:
         for i in range (self.vertices):
             for j in range (self.vertices):
                 if (i==j and self.dt[i][j]<0):
-                    return 1
-        return 0
+                    self.cicloNegativo = 1
+                    break
     
     def distancia(self,origem,destino):
         return(self.dt[origem-1][destino-1]) #-1 pois vertice 1 esta no indice 0

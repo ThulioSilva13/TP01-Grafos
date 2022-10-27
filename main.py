@@ -29,6 +29,7 @@ for i in range(len(linhas)):
 print("\nGrafo:")
 g.imprimirListaAdjacencia()
 g.floydWarshall()
+g.verificaCicloNegativo() #já conferir se tem ciclo negativo
 
 print("-------------------------------------------------------------------------")
 print("\nCaracteristicas do Grafo:")
@@ -53,14 +54,17 @@ profundidade, retorno = g.buscaProfundidade(inicio)
 print("-- Arvore de Profundidade: ",profundidade)
 print("-- Arestas de Retorno: ", retorno )
 
-
-print("\n- Distancia e Caminho Minimo: ")
-flag = g.verificaCicloNegativo()
-if (flag==1):
+print()
+if (g.cicloNegativo==1):
     print("ERRO: Impossivel calcular distancia entre vertices pois grafo com Ciclo Negativo!")
     print("ERRO: Impossivel calcular caminho minimo entre vertices pois grafo com Ciclo Negativo!")
+    print("ERRO: Impossivel calcular exentricidade de um vértice pois grafo com Ciclo Negativo!") 
+    print("ERRO: Impossivel calcular o raio do grafo pois grafo com Ciclo Negativo!")
+    print("ERRO: Impossivel calcular o diametro do grafo pois grafo com Ciclo Negativo!") 
+    print("ERRO: Impossivel calcular o centro do grafo pois grafo com Ciclo Negativo!") 
     
 else:
+    print("\n- Distancia e Caminho Minimo: ")
     origem = 1
     for i in range (1,6):
         print()
@@ -68,11 +72,10 @@ else:
         print("- Distancia entre ",origem,"e",destino,":",g.distancia(origem,destino))
         print("- Caminho minimo entre",origem,"e",destino,":",g.caminhoMinimo(origem,destino))
 
-print()
-for i in range (g.ordemGrafo()):
-    print("- Exentricidade do Vertice",i,": ",g.exentricidadeVertice(i+1))
+    for i in range (g.ordemGrafo()):
+        print("- Exentricidade do Vertice",i,": ",g.exentricidadeVertice(i+1))
     
-print("\n- Raio do Grafo:", g.raioGrafo())
-print("\n- Diametro do Grafo:",g.diametroGrafo())
-print("\n- Centro do Grafo:",g.centroGrafo())
+    print("\n- Raio do Grafo:", g.raioGrafo())
+    print("\n- Diametro do Grafo:",g.diametroGrafo())
+    print("\n- Centro do Grafo:",g.centroGrafo())
 
