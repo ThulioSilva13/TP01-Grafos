@@ -157,7 +157,14 @@ class Grafo:
         caminho.reverse()
         return(caminho)
     
-    #def CentralidadeProxC(self)
+    def CentralidadeProxC(self, vertice):
+        N = (self.vertices)
+        somatorio = 0
+        for i in range (N):
+            somatorio += self.dt[vertice-1][i] #somar a distancia do vertice a todos os outros do grafo
+        
+        c = (N-1)/somatorio
+        return(c)
     
     def floydWarshall(self):
         v = self.vertices

@@ -62,6 +62,7 @@ if (g.cicloNegativo==1):
     print("ERRO: Impossivel calcular o raio do grafo pois grafo com Ciclo Negativo!")
     print("ERRO: Impossivel calcular o diametro do grafo pois grafo com Ciclo Negativo!") 
     print("ERRO: Impossivel calcular o centro do grafo pois grafo com Ciclo Negativo!") 
+    print("ERRO: Impossivel calcular centralidade de proximidade do vertice pois grafo com Ciclo Negativo!") 
     
 else:
     print("\n- Distancia e Caminho Minimo: ")
@@ -78,4 +79,8 @@ else:
     print("\n- Raio do Grafo:", g.raioGrafo())
     print("\n- Diametro do Grafo:",g.diametroGrafo())
     print("\n- Centro do Grafo:",g.centroGrafo())
+    
+    print()
+    for i in range (1,g.ordemGrafo()+1):
+        print("- Centralidade de Proximidade do vértice",i,"é:",g.CentralidadeProxC(i))
 
