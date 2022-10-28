@@ -1,5 +1,7 @@
 import math
-import Vertice
+import json
+import sys
+
 
 class Grafo:
     def __init__(self):
@@ -58,10 +60,7 @@ class Grafo:
 
     def grauVertice(self, id):
         # grau de um vértice em um grafo não direcionado é o número de arestas incidentes no vértice
-        grau = 0
-        for i in self.grafo[id-1]:
-            grau+=1
-        return grau
+        return len(self.grafo[id-1])
         
     def sequenciaGrausGrafo(self):
         # sequencia de graus é uma sequência monotônica não crescente dos graus dos vértices, ou seja, é o grau dos vérticem em ordem decrescente
@@ -109,8 +108,6 @@ class Grafo:
         profundidade = []
         retorno = []
         self.procedimentoBP(v,exploradas, marcados, profundidade, retorno)
-        #print("arvore de profundidade = ",profundidade)
-        #print("arestas retorno = ", retorno )
         return marcados, retorno
     
     def procedimentoBP(self,v,exploradas,marcados, profundidade, retorno):        
@@ -224,4 +221,24 @@ class Grafo:
         for i in range (v):
             print(self.rot[i])
             
+    def lerJson(self, nomeArquivo):
+        with open(nomeArquivo, 'r') as fileJson:
+            grafoJson = json.load(fileJson)
+
+        arquivo = open(nomeArquivo.replace("json", "txt"), 'w')
+        quantidadeVertices = grafoJson['data']['nodes']['length']
+
+        arquivo.write(str(quantidadeVertices))
+
+
+        grafoJson['data']['nodes']['length'] = quantidadeVertices
+        origem = grafoJson['data']['edges']['_data']
+        path = grafoJson['data']['edges']['_data']
+        for i in range(1,grafoJson['data']['edges']['length']+1):
+            origem = path[str(i)]['from']
+            destino = path[str(i)]['to']
+            label = path[str(i)]['label']
+            arquivo.write("\n"+str(origem)+" "+str(destino)+" "+ label)
+        
+        
     

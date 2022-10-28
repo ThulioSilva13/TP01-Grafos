@@ -2,15 +2,11 @@ import json
 import sys
 from Grafo import Grafo
 
-# with open('grafoConvertido.json', 'r') as fileJson:
-#     data = json.load(fileJson)
-
 g = Grafo()
 
 def lerArquivo():
     nome_arquivo = sys.argv[1]
     linhas = []
-    #nome_arquivo = "Grafo.txt"
     arquivo = open(nome_arquivo)
     aux = 0
     for linha in arquivo.readlines():
@@ -20,7 +16,28 @@ def lerArquivo():
             qntdVertices = (int(linha.replace("\n","")))           
         aux += 1
     
-    inicializarGrafo(qntdVertices, linhas)
+    return [ qntdVertices, linhas]
+
+def escreverJson():
+    arq = lerArquivo()
+    with open('grafoExemplo.json', 'r') as fileJson:
+        grafoJson = json.load(fileJson)
+        grafoJson['data']['nodes']['length'] = arq[0]
+        grafoJson['data']['edges']['length'] = len(arq[1])
+        
+        for i in range(arq[0]):
+            vertice = {"id": int(i+1), "label": str(i+1)}
+            grafoJson["data"]["nodes"]["_data"][str(i+1)] = vertice
+
+        for i in range(len(arq[1])):
+            aresta = {"from": int(arq[1][i][0]), "to": int(arq[1][i][1]), "label": str(arq[1][i][2]),"id": str(i+1),"color": {}}
+            grafoJson["data"]["edges"]["_data"][str(i+1)] = aresta
+
+    with open('grafoCriado.json', 'w') as outputFileJson:
+        json.dump(grafoJson, outputFileJson, indent=4)
+escreverJson()   
+g.lerJson('grafoExemplo.json')
+
 
 def inicializarGrafo(qntdVertices, linhas):
     g.inicializaListaAdjacencia(qntdVertices)
@@ -31,7 +48,8 @@ def inicializarGrafo(qntdVertices, linhas):
     g.floydWarshall()
     g.verificaCicloNegativo() #já conferir se tem ciclo negativo
 
-lerArquivo()
+arq = lerArquivo()
+inicializarGrafo(arq[0], arq[1])
 
 print("-------------------------------------------------------------------------")
 print("\nCaracteristicas do Grafo:")
