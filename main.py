@@ -1,71 +1,77 @@
-import json
-import sys
-from Grafo import Grafo
+from grafo import Grafo
+from arquivo import Arquivo
 
-# with open('grafoConvertido.json', 'r') as fileJson:
-#     data = json.load(fileJson)
+import os.path
 
 g = Grafo()
-   
+a = Arquivo()
+  
 def escolherArquivo():
     print("-------------------------------------------------------------------------")
     print("ESCOLHER ARQUIVO")
     print("-------------------------------------------------------------------------")
-    print("[ 1 ] .json")
-    print("[ 2 ] .txt")
+    print("[ 1 ] | FORMATO .json")
+    print("[ 2 ] | FORMATO .txt")
+    print("\n[ 3 ] | VOLTAR MENU")
     print("-------------------------------------------------------------------------")
-    print("Entre com o número referente ao formato do arquivo de entrada:", end = " ")
-    formato = int(input())
-    if (formato==1 or formato==2):
-        nomeArquivo(formato)
+    print("Entre com sua escolha:", end = " ")
+    formato = input()
+    if (formato=='1' or formato=='2'):
+        receberArquivo(int(formato))
+    elif (formato=='3'):
+        return
     else:
-        print("Erro: FORMATO INVÁLIDO!")
+        print("Erro: ESCOLHA INVÁLIDA!")
         escolherArquivo()
 
-def nomeArquivo(formato):
-    if formato == 1:
-        print("Entre com o nome do arquivo .json:", end = " ")
-        nomeArquivo = input()
-        lerJson(nomeArquivo)
-        nomeArquivo = nomeArquivo.replace("json","txt") #funcao lerJson vai gerar o arquivo txt de mesmo nome
-    else: #se nao é 1 é 2
-        print("Entre com o nome do arquivo .txt:", end = " ")
-        nomeArquivo = input()
+def receberArquivo(formato):
     
-    lerTxt(nomeArquivo)
-
-
-def lerJson(nomeArquivo):
-    print("implementar função que lê arquivo .json e gera arquivo .txt")
-
-def gerarJson():
-    print("!!! implementar função que gera arquivo .json !!!")
-
-def lerTxt(nome_arquivo):
-    #nome_arquivo = sys.argv[1]
-    linhas = []
-    #nome_arquivo = "Grafo.txt"
-    arquivo = open(nome_arquivo)
-    aux = 0
-    for linha in arquivo.readlines():
-        if aux != 0:
-            linhas.append(list(map(float,linha.replace("\n","").split(" "))))
-        else:
-            qntdVertices = (int(linha.replace("\n","")))           
-        aux += 1
+    flag = 1
     
-    inicializarGrafo(qntdVertices, linhas)
+    if flag == 1:
+
+        if formato == 1:
+            print("Entre com o nome do arquivo com a extensão .json:", end = " ")
+            nomeArquivo = input()
+            if ".json" not in nomeArquivo:
+                print("Erro: NOME SEM EXTENSÃO .JSON")
+                escolherArquivo()
+            else:
+                if(os.path.isfile(nomeArquivo)): #coneferir se existe o aquivo
+                    a.lerJson(nomeArquivo)
+                    a.nome = nomeArquivo.replace("json","txt") #funcao lerJson vai gerar o arquivo txt de mesmo nome
+                    flag = 0
+                else:
+                    print("Erro: ARQUIVO NÃO ENCONTRADO")
+                    escolherArquivo()
+            
+        else: #se nao é 1 é 2
+            print("Entre com o nome do arquivo com a extensão .txt:", end = " ")
+            nomeArquivo = input()
+            if ".txt" not in nomeArquivo:
+                print("Erro: NOME SEM EXTENSÃO .TXT")
+                escolherArquivo()
+            else:
+                if(os.path.isfile(nomeArquivo)): #coneferir se existe o aquivo 
+                    a.nome = nomeArquivo
+                    flag = 0
+                else:
+                    print("Erro: ARQUIVO NÃO ENCONTRADO")
+                    escolherArquivo()
+    
+    if flag==0:
+        #ler arquivo txt
+        arq = a.lerTxt()
+        #inicializar grafo com informações lidas do arquivo txt
+        inicializarGrafo(arq[0], arq[1])
 
 def inicializarGrafo(qntdVertices, linhas):
     g.inicializaListaAdjacencia(qntdVertices)
     for i in range(len(linhas)):
         g.insereAresta(int(linhas[i][0]), int(linhas[i][1]), float(linhas[i][2]))
-
-    print("\nGrafo:")
     g.imprimirListaAdjacencia()
     g.floydWarshall()
     g.verificaCicloNegativo() #já conferi se é ciclo negativo
-    print(g.cicloNegativo)
 
 def menuFuncoes():
     while True:
@@ -84,72 +90,79 @@ def menuFuncoes():
         print("[ 10 ] | BUSCA EM PROFUNDIDADE")
         print("[ 11 ] | DISTANCIA E CAMINHO MÍNIMO")
         print("[ 12 ] | CENTRALIDADE DE PROXIMIDADE C DE UM VÉTICE X")
-        print("[ 13 ] | ENCERRAR")
+        print("[ 13 ] | USAR TODAS AS FUNÇÔES")
+        print("\n[ 14 ] | VOLTAR PRO MENU")
         print("-------------------------------------------------------------------------")
         print("Entre com sua escolha:", end = " ")
-        escolha = int(input())
+        escolha = input()
         
-        #conferir se grafo foi inicializado
-        
-        if g == None: 
-            print("Erro: PRIMEIRO ESCOLHA O ARQUIVO")
-         
-        elif escolha == 1:
+        if escolha == '1':
             print("\n- Ordem do Grafo: ",g.ordemGrafo())
       
-        elif escolha == 2:
+        elif escolha == '2':
             print("\n- Tamanho do Grafo: ",g.tamanhoGrafo())
      
-        elif escolha == 3:
+        elif escolha == '3':
             print("\nEntre com o vértice que deseja saber seus vizinhos: ", end = " ")
             v = int(input())
-            print("\n- Vizinhos do Vertice",v,": ",g.encontrarVizinhos(v))
+            if v > g.ordemGrafo():
+                print("Erro: VÉRTICE INVÁLIDO")
+            else:
+                print("\n- Vizinhos do Vertice",v,": ",g.encontrarVizinhos(v))
             
               
-        elif escolha == 4:
+        elif escolha == '4':
             print("\nEntre com o vértice que deseja saber o grau: ", end = " ")
             v = int(input())
-            print("\n- Grau do Vertice",v,": ",g.grauVertice(v))
+            if v > g.ordemGrafo():
+                print("Erro: VÉRTICE INVÁLIDO")
+            else:
+                print("\n- Grau do Vertice",v,": ",g.grauVertice(v))
               
-        elif escolha == 5:
+        elif escolha == '5':
             print("\n- Sequencia de Graus do Grafo: ",g.sequenciaGrausGrafo())
              
-        elif escolha == 6:
+        elif escolha == '6':
             if (g.cicloNegativo==1):
                 print("ERRO: Impossivel calcular exentricidade de um vértice pois grafo com Ciclo Negativo!") 
             else:
                 print("\nEntre com o vértice que deseja saber sua excentricidade: ", end = " ")
                 v = int(input())
-                print("- Exentricidade do Vertice",v,": ",g.exentricidadeVertice(v))         
+                if v > g.ordemGrafo():
+                    print("Erro: VÉRTICE INVÁLIDO")
+                else:
+                    print("- Exentricidade do Vertice",v,": ",g.exentricidadeVertice(v))         
         
-        elif escolha == 7:
+        elif escolha == '7':
             if (g.cicloNegativo==1):
                 print("ERRO: Impossivel calcular o raio do grafo pois grafo com Ciclo Negativo!") 
             else:
                 print("\n- Raio do Grafo:", g.raioGrafo())
 
-        elif escolha == 8:
+        elif escolha == '8':
             if (g.cicloNegativo==1):
                 print("ERRO: Impossivel calcular o diametro do grafo pois grafo com Ciclo Negativo!") 
             else:
                 print("\n- Diametro do Grafo:",g.diametroGrafo())
 
 
-        elif escolha == 9:
+        elif escolha == '9':
             if (g.cicloNegativo==1):
                 print("ERRO: Impossivel calcular o centro do grafo pois grafo com Ciclo Negativo!") 
             else:
                 print("\n- Centro do Grafo:",g.centroGrafo())
             
-        elif escolha == 10:
+        elif escolha == '10':
             print("\nEntre com o vértice que deseja começar a busca em profundidade: ", end = " ")
             v = int(input())
-            # corrigir para vertices vizitados e nao arestas de profundidade
-            marcados, retorno = g.buscaProfundidade(v)
-            print("- Vértices vizitados na Busca em Profundidade: ",marcados)
-            print("- Arestas de Retorno: ", retorno )
+            if v > g.ordemGrafo():
+                print("Erro: VÉRTICE INVÁLIDO")
+            else:
+                vizitados, retorno = g.buscaProfundidade(v)
+                print("- Vértices vizitados na Busca em Profundidade: ",vizitados)
+                print("- Arestas de Retorno: ", retorno )
         
-        elif escolha == 11:
+        elif escolha == '11':
             if (g.cicloNegativo==1):
                 print("ERRO: Impossivel calcular distancia e caminho mínimo entre vertices pois grafo com Ciclo Negativo!")  
             else:
@@ -157,27 +170,81 @@ def menuFuncoes():
                 origem = int(input())
                 print("\nEntre com o vértice de destino: ", end = " ")
                 destino = int(input())
-                #conferir se vertices existem no grafico
-                print("- Distancia entre ",origem,"e",destino,":",g.distancia(origem,destino))
-                print("- Caminho minimo entre",origem,"e",destino,":",g.caminhoMinimo(origem,destino))
+                max = g.ordemGrafo()
+                if (origem > max) or (destino > max):
+                    print("Erro: VÉRTICE INVÁLIDO")
+                else:
+                    print("- Distancia entre {:d}  e {:d} é: {:.2f}".format(origem,destino,g.distancia(origem,destino)))
+                    print("- Caminho minimo entre",origem,"e",destino,":",g.caminhoMinimo(origem,destino))
 
-        elif escolha == 12:
+        elif escolha == '12':
             if (g.cicloNegativo==1):
                 print("ERRO: Impossivel calcular centralidade de proximidade do vertice pois grafo com Ciclo Negativo!") 
             else: 
                 print("\nEntre com o vértice que deseja calcular a centralidade: ", end = " ")
                 v = int(input())
-                print("- Centralidade de Proximidade do vértice",v,"é:",g.CentralidadeProxC(v))
+                if v > g.ordemGrafo():
+                    print("Erro: VÉRTICE INVÁLIDO")
+                else:  
+                    print("- Centralidade de Proximidade do vértice {:d} é: {:.2f}".format(v,g.CentralidadeProxC(v)))
         
-        elif escolha == 13:
+        elif escolha == '13':
+            grau = g.ordemGrafo()
+            print("-------------------------------------------------------------------------")
+            print("\nCaracteristicas do Grafo:")
+
+            print("\n- Ordem do Grafo: ",g.ordemGrafo())
+
+            print("\n- Tamanho do Grafo: ",g.tamanhoGrafo())
+
+            print()
+            for i in range (1, grau+1):
+                print("- Vizinhos do Vertice",i,": ",g.encontrarVizinhos(i))
+
+            print()
+            for i in range (1, grau+1):
+                print("- Grau do Vertice",i,": ",g.grauVertice(i))
+                
+            print("\n- Sequencia de Graus do Vertice : ",g.sequenciaGrausGrafo())
+
+            print("\n- Busca em Profundidade: ")
+            inicio = 1
+            vizitados, retorno = g.buscaProfundidade(inicio)
+            print("-- Vértices vizitados na Busca em Profundidade: ",vizitados)
+            print("-- Arestas de Retorno: ", retorno )
+
+            print()
+            if (g.cicloNegativo==1):
+                print("ERRO: Impossivel usar restantes das funções pois grafo Ciclo Negativo!")
+            else:
+                print("\n- Distancia e Caminho Minimo: ")
+                origem = 1
+                for i in range (1,grau+1):
+                    print()
+                    destino = i
+                    print("- Distancia entre {:d}  e {:d} é: {:.2f}".format(origem,destino,g.distancia(origem,destino)))
+                    print("- Caminho minimo entre",origem,"e",destino,":",g.caminhoMinimo(origem,destino))
+
+                for i in range (1,grau+1):
+                    print("- Exentricidade do Vertice {:d}: {:.2f}".format(i,g.exentricidadeVertice(i)))
+                
+                print("\n- Raio do Grafo {:d}: {:.2f}".format(i, g.raioGrafo()))
+                print("\n- Diametro do Grafo {:d}: {:.2f}".format(i,g.diametroGrafo()))
+                print("\n- Centro do Grafo: ",g.centroGrafo())
+                
+                print()
+                for i in range (1,grau+1):
+                    print("- Centralidade de Proximidade do vértice {:d} é: {:.2f}".format(i,g.CentralidadeProxC(i)))
+                    
+        elif escolha == '14':
             break
-            
+        
         else:
             print("Erro: ESCOLHA INVÁLIDA")
     
     
 while True:
-    print("-------------------------------------------------------------------------")
+    print("\n-------------------------------------------------------------------------")
     print("MENU")
     print("-------------------------------------------------------------------------")
     print("[ 1 ] | ESCOLHER ARQUIVO")
@@ -186,24 +253,24 @@ while True:
     print("[ 4 ] | ENCERRAR")
     print("-------------------------------------------------------------------------")
     print("Entre com sua escolha:", end = " ")
-    escolha = int(input())
+    escolha = input()
     
-    if escolha == 1:
+    if escolha == '1':
         escolherArquivo()
         
-    elif escolha == 2:
-        if g == None: 
+    elif escolha == '2':
+        if g.vertices == 0: 
             print("Erro: PRIMEIRO ESCOLHA O ARQUIVO")
         else:
             menuFuncoes()
         
-    elif escolha == 3:
-        if g == None: 
+    elif escolha == '3':
+        if g.vertices == 0: 
             print("Erro: PRIMEIRO ESCOLHA O ARQUIVO")
         else:
-            gerarJson()
+            a.gerarJson()
     
-    elif escolha == 4:
+    elif escolha == '4':
         break
     
     else:

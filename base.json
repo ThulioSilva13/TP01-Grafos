@@ -1,0 +1,121 @@
+{
+   "data":{
+      "nodes":{
+         "_subscribers":{
+            "*":[
+               
+            ],
+            "add":[
+               {
+                  
+               }
+            ],
+            "remove":[
+               {
+                  
+               }
+            ],
+            "update":[
+               {
+                  
+               }
+            ]
+         },
+         "_options":{
+            
+         },
+         "_data":{
+            
+         },
+         "length":0,
+         "_idProp":"id",
+         "_type":{
+            
+         }
+      },
+      "edges":{
+         "_subscribers":{
+            "*":[
+               
+            ],
+            "add":[
+               {
+                  
+               }
+            ],
+            "remove":[
+               {
+                  
+               }
+            ],
+            "update":[
+               {
+                  
+               }
+            ]
+         },
+         "_options":{
+            
+         },
+         "_data":{
+            
+         },
+         "length":0,
+         "_idProp":"id",
+         "_type":{
+            
+         }
+      }
+   },
+   "options":{
+      "locale":"pt-br",
+      "manipulation":{
+         "enabled":false
+      },
+      "edges":{
+         "font":{
+            "color":"#ffffff",
+            "strokeWidth":0,
+            "size":18
+         }
+      },
+      "nodes":{
+         "color":{
+            "border":"#698B69",
+            "background":"#458B74",
+            "highlight":{
+               "border":"#698B69",
+               "background":"#4f6e4f"
+            }
+         },
+         "font":{
+            "color":"white"
+         }
+      },
+      "physics":{
+         "enabled":true,
+         "forceAtlas2Based":{
+            "gravitationalConstant":-50,
+            "centralGravity":0.01,
+            "springConstant":0.02,
+            "springLength":100,
+            "damping":0.4,
+            "avoidOverlap":0
+         },
+         "maxVelocity":50,
+         "minVelocity":0.1,
+         "solver":"forceAtlas2Based",
+         "stabilization":{
+            "enabled":true,
+            "iterations":1000,
+            "updateInterval":100,
+            "onlyDynamicEdges":false,
+            "fit":true
+         },
+         "timestep":0.5,
+         "adaptiveTimestep":true
+      }
+   },
+   "ponderado":true,
+   "ordenado":false
+}

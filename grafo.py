@@ -1,5 +1,4 @@
 import math
-import Vertice
 
 class Grafo:
     def __init__(self):
@@ -19,6 +18,9 @@ class Grafo:
         self.grafo[destino -1].append([origem, peso])
     
     def imprimirListaAdjacencia(self):
+        print("\n-------------------------------------------------------------------------")
+        print("REPRESENTAÇÃO POR LISTA DE ADJACÊNCIA")
+        print("-------------------------------------------------------------------------")
         for i in range(self.vertices):
             print(f'{i+1}:', end='  ')
             for j in self.grafo[i]:
@@ -58,10 +60,7 @@ class Grafo:
 
     def grauVertice(self, id):
         # grau de um vértice em um grafo não direcionado é o número de arestas incidentes no vértice
-        grau = 0
-        for i in self.grafo[id-1]:
-            grau+=1
-        return grau
+        return len(self.grafo[id-1])
         
     def sequenciaGrausGrafo(self):
         # sequencia de graus é uma sequência monotônica não crescente dos graus dos vértices, ou seja, é o grau dos vérticem em ordem decrescente
@@ -155,13 +154,14 @@ class Grafo:
         N = (self.vertices)
         somatorio = 0
         for i in range (N):
-            somatorio += self.dt[vertice][i] #somar a distancia do vertice a todos os outros do grafo
-        
-        print(somatorio)
+            somatorio += self.dt[vertice-1][i] #somar a distancia do vertice a todos os outros do grafo
         c = (N-1)/somatorio
         return(c)
        
     def floydWarshall(self):
+        print("\n-------------------------------------------------------------------------")
+        print("MATRIZES FLOYD-WARSHALL")
+        print("-------------------------------------------------------------------------")
         v = self.vertices
         self.dt = [[0 for i in range (self.vertices)] for j in range (v)] 
         self.rot = [[0 for i in range (self.vertices)] for j in range (v)] 
@@ -190,14 +190,23 @@ class Grafo:
                     else:
                         self.dt[i][j] = math.inf
                         self.rot[i][j] =  0
+                       
+        print("\nINICIALIZAÇÃO:") 
         
-        print("\n Inicialização:") 
-        print("\ndt:")
+        print("\n - MATRIZ DT:")
         for i in range (v):
-            print(self.dt[i])
-        print("\nrot:")
+            print("   [",end = "")
+            for j in range (v):
+                if j == v-1:
+                    print("{:.2f}]".format(self.dt[i][j]))
+                else:
+                    print("{:.2f},".format(self.dt[i][j]), end = " ")
+                    
+        print("\n - MATRIZ ROT:")
         for i in range (v):
+            print("  ",end = " ")
             print(self.rot[i])
+        print("\n-------------------------------------------------------------------------")
         
         #tentar caminho intermediario
         for k in range(v):
@@ -206,16 +215,27 @@ class Grafo:
                     if self.dt[i][j] > (self.dt[i][k] + self.dt[k][j]):
                         self.dt[i][j] = (self.dt[i][k] + self.dt[k][j])
                         self.rot[i][j] = self.rot[k][j]
-                        
-        print("\n Resultado Final") 
-        print("\ndt:")
+        
+        
+        print("\nRESULTADO FINAL") 
+        
+        print("\n - MATRIZ DT:")
         for i in range (v):
-            print(self.dt[i])
-        print("\nrot:")
+            print("   [",end = "")
+            for j in range (v):
+                if j == v-1:
+                    print("{:.2f}]".format(self.dt[i][j]))
+                else:
+                    print("{:.2f},".format(self.dt[i][j]), end = " ")
+                
+        print("\n - MATRIZ ROT:")
         for i in range (v):
+            print("  ",end = " ")
             print(self.rot[i])
+
             
     def verificaCicloNegativo(self):
+        self.cicloNegativo = 0
         for i in range (self.vertices):
             for j in range (self.vertices):
                 if (i==j and self.dt[i][j]<0):
