@@ -108,7 +108,9 @@ def menuFuncoes():
             if (v < 1) or (v > g.ordemGrafo()):
                 print("\nErro: VERTICE INVALIDO")
             else:
-                print("\n- VIZINHOS DO VERTICE",v,":",g.encontrarVizinhos(v))
+                vizinhos = g.encontrarVizinhos(v)
+                vizinhos.sort()
+                print("\n- VIZINHOS DO VERTICE",v,":",vizinhos)
             
               
         elif escolha == '4':
@@ -160,7 +162,7 @@ def menuFuncoes():
             else:
                 vizitados, retorno = g.buscaProfundidade(v)
                 print("\n- BUSCA EM PROFUNDIDADE COMEÇANDO DO VERTICE",v,":")
-                print("-- VERTICES VIZITADOS:",vizitados)
+                print("-- VERTICES VISITADOS:",vizitados)
                 print("-- ARESTAS DE RETORNO:", retorno )
                 
         elif escolha == '11':
@@ -214,7 +216,9 @@ def menuFuncoes():
 
             print()
             for v in range (1, grau+1):
-                print("- VIZINHOS DO VERTICE",v,":",g.encontrarVizinhos(v))
+                vizinhos = g.encontrarVizinhos(v)
+                vizinhos.sort()
+                print("\n- VIZINHOS DO VERTICE ",v,":",vizinhos)
 
             print()
             for v in range (1, grau+1):
@@ -226,7 +230,7 @@ def menuFuncoes():
             for v in range (1, grau+1):
                 print("\n- BUSCA EM PROFUNDIDADE COMEÇANDO DO VERTICE",v,":")
                 vizitados, retorno = g.buscaProfundidade(v)
-                print("-- VERTICES VIZITADOS:",vizitados)
+                print("-- VERTICES VISITADOS:",vizitados)
                 print("-- ARESTAS DE RETORNO:", retorno )
 
             print()
@@ -289,7 +293,7 @@ while True:
     
     elif escolha == '4':
         break
-    
+        
     else:
         print("Erro: ESCOLHA INVÁLIDA!")
 

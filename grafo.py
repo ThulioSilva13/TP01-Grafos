@@ -47,7 +47,6 @@ class Grafo:
             if(i+1 == idVertice):
                 for j in range(len(self.grafo[i])):
                     listaVizinhos.append(self.grafo[i][j][0])
-        listaVizinhos.sort()
         return listaVizinhos
     
     def encontrarPesoVizinhos(self, idVertice):
@@ -186,29 +185,14 @@ class Grafo:
                     else:
                         self.dt[i][j] = math.inf
                         self.rot[i][j] =  0
-        '''              
-        # inicialização da matrizes
-        print("\n - MATRIZ DT:")
-        for i in range (v):
-            print("   [",end = "")
-            for j in range (v):
-                if j == v-1:
-                    print("{:.2f}]".format(self.dt[i][j]))
-                else:
-                    print("{:.2f},".format(self.dt[i][j]), end = " ")
-                    
-        print("\n - MATRIZ ROT:")
-        for i in range (v):
-            print("  ",end = " ")
-            print(self.rot[i])
-        '''       
+               
         #tentar caminho intermediario
         for k in range(v):
             for i in range(v):
                 for j in range(v):
                     if self.dt[i][j] > (self.dt[i][k] + self.dt[k][j]):
                         self.dt[i][j] = (self.dt[i][k] + self.dt[k][j])
-                        self.rot[i][j] = self.rot[k][j]
+                        self.rot[i][j] = self.rot[k][j]  
         
     def imprimirMatrizesFloydWarshall(self):
         v = self.vertices
@@ -225,8 +209,7 @@ class Grafo:
         for i in range (v):
             print("  ",end = " ")
             print(self.rot[i])
-
-            
+    
     def verificaCicloNegativo(self):
         self.cicloNegativo = 0
         for i in range (self.vertices):
