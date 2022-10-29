@@ -59,7 +59,5 @@ class Arquivo:
         
         print("-------------------------------------------------------------------------")
         print("ARQUIVO ",nomeJson," GERADO COM SUCESSO!")
-    
-
-
+        
 

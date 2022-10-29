@@ -25,7 +25,6 @@ def escolherArquivo():
         escolherArquivo()
 
 def receberArquivo(formato):
-    
     flag = 1
     
     if flag == 1:
@@ -69,174 +68,192 @@ def inicializarGrafo(qntdVertices, linhas):
     g.inicializaListaAdjacencia(qntdVertices)
     for i in range(len(linhas)):
         g.insereAresta(int(linhas[i][0]), int(linhas[i][1]), float(linhas[i][2]))
-    g.imprimirListaAdjacencia()
     g.floydWarshall()
     g.verificaCicloNegativo() #já conferi se é ciclo negativo
 
 def menuFuncoes():
     while True:
-        print("-------------------------------------------------------------------------")
+        print("\n-------------------------------------------------------------------------")
         print("FUNÇÕES DA BIBLIOTECA")
         print("-------------------------------------------------------------------------")
         print("[  1 ] | ORDEM DO GRAFO")
         print("[  2 ] | TAMANHO DO GRAFO")
-        print("[  3 ] | VIZINHOS DE UM VÉRTICE")
+        print("[  3 ] | VIZINHOS DE UM VERTICE")
         print("[  4 ] | GRAU DE UM VÉRTICE")
-        print("[  5 ] | SEQUÊNCIA DE GRAUS DO GRAFO")
-        print("[  6 ] | EXCENTRICIDADE DE UM VÉRTICE")
+        print("[  5 ] | SEQUENCIA DE GRAUS DO GRAFO")
+        print("[  6 ] | EXCENTRICIDADE DE UM VERTICE")
         print("[  7 ] | RAIO DO GRAFO")
-        print("[  8 ] | DIÂMETRO DO GRAFO")
+        print("[  8 ] | DIAMETRO DO GRAFO")
         print("[  9 ] | CENTRO DO GRAFO")
         print("[ 10 ] | BUSCA EM PROFUNDIDADE")
-        print("[ 11 ] | DISTANCIA E CAMINHO MÍNIMO")
-        print("[ 12 ] | CENTRALIDADE DE PROXIMIDADE C DE UM VÉTICE X")
-        print("[ 13 ] | USAR TODAS AS FUNÇÔES")
-        print("\n[ 14 ] | VOLTAR PRO MENU")
+        print("[ 11 ] | DISTANCIA E CAMINHO MINIMO")
+        print("[ 12 ] | CENTRALIDADE DE PROXIMIDADE C DE UM VERTICE X")
+        print("[ 13 ] | REPRESENTAÇAO DO GRAFO EM LISTA DE ADJACENCIA")
+        print("[ 14 ] | MATRIZES RESULTANTES FLOYD-WARSHALL")
+        print("[ 15 ] | USAR TODAS AS FUNÇOES")
+        print("\n[ 16 ] | VOLTAR PRO MENU")
         print("-------------------------------------------------------------------------")
         print("Entre com sua escolha:", end = " ")
         escolha = input()
         
         if escolha == '1':
-            print("\n- Ordem do Grafo: ",g.ordemGrafo())
+            print("\n- ORDEM DO GRAFO:",g.ordemGrafo())
       
         elif escolha == '2':
-            print("\n- Tamanho do Grafo: ",g.tamanhoGrafo())
+            print("\n- TAMANHO DO GRAFO:",g.tamanhoGrafo())
      
         elif escolha == '3':
-            print("\nEntre com o vértice que deseja saber seus vizinhos: ", end = " ")
+            print("Entre com o vertice que deseja saber seus vizinhos:", end = " ")
             v = int(input())
-            if v > g.ordemGrafo():
-                print("Erro: VÉRTICE INVÁLIDO")
+            if (v < 1) or (v > g.ordemGrafo()):
+                print("\nErro: VERTICE INVALIDO")
             else:
-                print("\n- Vizinhos do Vertice",v,": ",g.encontrarVizinhos(v))
+                print("\n- VIZINHOS DO VERTICE",v,":",g.encontrarVizinhos(v))
             
               
         elif escolha == '4':
-            print("\nEntre com o vértice que deseja saber o grau: ", end = " ")
+            print("Entre com o vertice que deseja saber o grau:", end = " ")
             v = int(input())
-            if v > g.ordemGrafo():
-                print("Erro: VÉRTICE INVÁLIDO")
+            if (v < 1) or (v > g.ordemGrafo()):
+                print("\nErro: VERTICE INVALIDO")
             else:
-                print("\n- Grau do Vertice",v,": ",g.grauVertice(v))
+                print("\n- GRAU DO VERTICE",v,":",g.grauVertice(v))
               
         elif escolha == '5':
-            print("\n- Sequencia de Graus do Grafo: ",g.sequenciaGrausGrafo())
+            print("\n- SEQUENCIA DE GRAUS DO GRAFO:",g.sequenciaGrausGrafo())
              
         elif escolha == '6':
             if (g.cicloNegativo==1):
-                print("ERRO: Impossivel calcular exentricidade de um vértice pois grafo com Ciclo Negativo!") 
+                print("\nErro: GRAFO COM CICLO NAGATIVO! Impossivel calcular exentricidade de um vertice.") 
             else:
-                print("\nEntre com o vértice que deseja saber sua excentricidade: ", end = " ")
+                print("Entre com o vertice que deseja saber sua excentricidade: ", end = " ")
                 v = int(input())
-                if v > g.ordemGrafo():
-                    print("Erro: VÉRTICE INVÁLIDO")
+                if (v < 1) or (v > g.ordemGrafo()):
+                    print("\nErro: VERTICE INVALIDO")
                 else:
-                    print("- Exentricidade do Vertice",v,": ",g.exentricidadeVertice(v))         
+                    print("\n- EXCENTRICIDADE DO VERTICE",v,": ",g.exentricidadeVertice(v))         
         
         elif escolha == '7':
             if (g.cicloNegativo==1):
-                print("ERRO: Impossivel calcular o raio do grafo pois grafo com Ciclo Negativo!") 
+                print("\nErro: GRAFO COM CICLO NAGATIVO! Impossivel calcular o raio do grafo.") 
             else:
-                print("\n- Raio do Grafo:", g.raioGrafo())
+                print("\n- RAIO DO GRAFO:", g.raioGrafo())
 
         elif escolha == '8':
             if (g.cicloNegativo==1):
-                print("ERRO: Impossivel calcular o diametro do grafo pois grafo com Ciclo Negativo!") 
+                print("\nErro: GRAFO COM CICLO NAGATIVO! Impossivel calcular o diametro do grafo.") 
             else:
-                print("\n- Diametro do Grafo:",g.diametroGrafo())
+                print("\n- DIAMETRO DO GRAFO:",g.diametroGrafo())
 
 
         elif escolha == '9':
             if (g.cicloNegativo==1):
-                print("ERRO: Impossivel calcular o centro do grafo pois grafo com Ciclo Negativo!") 
+                print("\nErro: GRAFO COM CICLO NAGATIVO! Impossivel calcular o centro do grafo.") 
             else:
-                print("\n- Centro do Grafo:",g.centroGrafo())
+                print("\n- CENTRO DO GRAFO:",g.centroGrafo())
             
         elif escolha == '10':
-            print("\nEntre com o vértice que deseja começar a busca em profundidade: ", end = " ")
+            print("Entre com o vertice que deseja começar a busca em profundidade:", end = " ")
             v = int(input())
-            if v > g.ordemGrafo():
-                print("Erro: VÉRTICE INVÁLIDO")
+            if (v < 1) or (v > g.ordemGrafo()):
+                print("\nErro: VERTICE INVALIDO")
             else:
                 vizitados, retorno = g.buscaProfundidade(v)
-                print("- Vértices vizitados na Busca em Profundidade: ",vizitados)
-                print("- Arestas de Retorno: ", retorno )
-        
+                print("\n- BUSCA EM PROFUNDIDADE COMEÇANDO DO VERTICE",v,":")
+                print("-- VERTICES VIZITADOS:",vizitados)
+                print("-- ARESTAS DE RETORNO:", retorno )
+                
         elif escolha == '11':
             if (g.cicloNegativo==1):
-                print("ERRO: Impossivel calcular distancia e caminho mínimo entre vertices pois grafo com Ciclo Negativo!")  
+                print("\nErro: GRAFO COM CICLO NAGATIVO! Impossível calcular distancia e caminho minimo entre vertices.")  
             else:
-                print("\nEntre com o vértice de origem: ", end = " ")
+                print("Entre com o vertice de origem:", end = " ")
                 origem = int(input())
-                print("\nEntre com o vértice de destino: ", end = " ")
+                print("Entre com o vertice de destino:", end = " ")
                 destino = int(input())
                 max = g.ordemGrafo()
-                if (origem > max) or (destino > max):
-                    print("Erro: VÉRTICE INVÁLIDO")
+                if (origem < 1) or (origem > max) or (destino < 1) or (destino > max):
+                    print("\nErro: VERTICE INVALIDO")
                 else:
-                    print("- Distancia entre {:d}  e {:d} é: {:.2f}".format(origem,destino,g.distancia(origem,destino)))
-                    print("- Caminho minimo entre",origem,"e",destino,":",g.caminhoMinimo(origem,destino))
+                    print("\n- DISTANCIA ENTRE {:d}  E {:d} : {:.2f}".format(origem,destino,g.distancia(origem,destino)))
+                    print("- CAMINHO MINIMO ENTRE",origem,"E",destino,":",g.caminhoMinimo(origem,destino))
 
         elif escolha == '12':
             if (g.cicloNegativo==1):
-                print("ERRO: Impossivel calcular centralidade de proximidade do vertice pois grafo com Ciclo Negativo!") 
+                print("\nErro: GRAFO COM CICLO NAGATIVO! Impossivel calcular centralidade de proximidade de um vertice.") 
             else: 
-                print("\nEntre com o vértice que deseja calcular a centralidade: ", end = " ")
+                print("Entre com o vertice que deseja calcular a centralidade de proximidade:", end = " ")
                 v = int(input())
-                if v > g.ordemGrafo():
-                    print("Erro: VÉRTICE INVÁLIDO")
+                if (v < 1) or (v > g.ordemGrafo()):
+                    print("\nErro: VÉRTICE INVÁLIDO")
                 else:  
-                    print("- Centralidade de Proximidade do vértice {:d} é: {:.2f}".format(v,g.CentralidadeProxC(v)))
+                    print("- CENTRALIDADE DE PROXIMIDADE DO VERTICE {:d} : {:.2f}".format(v,g.CentralidadeProxC(v)))
         
         elif escolha == '13':
+            print("\n- REPRESENTAÇAO POR LISTA DE ADJACENCIA:\n")
+            g.imprimirListaAdjacencia()
+        
+        elif escolha == '14':
+            print("\n- MATRIZES FLOYD-WARSHALL")
+            g.imprimirMatrizesFloydWarshall()
+            
+            
+        elif escolha == '15':
             grau = g.ordemGrafo()
             print("-------------------------------------------------------------------------")
-            print("\nCaracteristicas do Grafo:")
+            
+            print("\n- REPRESENTAÇAO POR LISTA DE ADJACENCIA:\n")
+            g.imprimirListaAdjacencia()
+        
+            print("\n- MATRIZES FLOYD-WARSHALL")
+            g.imprimirMatrizesFloydWarshall()
 
-            print("\n- Ordem do Grafo: ",g.ordemGrafo())
+            print("\n- ORDEM DO GRAFO:",g.ordemGrafo())
 
-            print("\n- Tamanho do Grafo: ",g.tamanhoGrafo())
+            print("\n- TAMANHO DO GRAFO:",g.tamanhoGrafo())
 
             print()
-            for i in range (1, grau+1):
-                print("- Vizinhos do Vertice",i,": ",g.encontrarVizinhos(i))
+            for v in range (1, grau+1):
+                print("- VIZINHOS DO VERTICE",v,":",g.encontrarVizinhos(v))
 
             print()
-            for i in range (1, grau+1):
-                print("- Grau do Vertice",i,": ",g.grauVertice(i))
+            for v in range (1, grau+1):
+                print("- GRAU DO VERTICE",v,":",g.grauVertice(v))
                 
-            print("\n- Sequencia de Graus do Vertice : ",g.sequenciaGrausGrafo())
-
-            print("\n- Busca em Profundidade: ")
-            inicio = 1
-            vizitados, retorno = g.buscaProfundidade(inicio)
-            print("-- Vértices vizitados na Busca em Profundidade: ",vizitados)
-            print("-- Arestas de Retorno: ", retorno )
+            print("\n- SEQUENCIA DE GRAUS DO GRAFO:",g.sequenciaGrausGrafo())
+            
+            print("\n- BUSCA EM PROFUNDIDADE: ")
+            for v in range (1, grau+1):
+                print("\n- BUSCA EM PROFUNDIDADE COMEÇANDO DO VERTICE",v,":")
+                vizitados, retorno = g.buscaProfundidade(v)
+                print("-- VERTICES VIZITADOS:",vizitados)
+                print("-- ARESTAS DE RETORNO:", retorno )
 
             print()
             if (g.cicloNegativo==1):
-                print("ERRO: Impossivel usar restantes das funções pois grafo Ciclo Negativo!")
+                print("Erro: GRAFO COM CICLO NAGATIVO! Impossivel usar o restante das funcoes.")
             else:
-                print("\n- Distancia e Caminho Minimo: ")
+                print("\n- DISTANCIA E CAMINHO MINIMO:")
                 origem = 1
-                for i in range (1,grau+1):
+                for d in range (1,grau+1):
                     print()
-                    destino = i
-                    print("- Distancia entre {:d}  e {:d} é: {:.2f}".format(origem,destino,g.distancia(origem,destino)))
-                    print("- Caminho minimo entre",origem,"e",destino,":",g.caminhoMinimo(origem,destino))
-
-                for i in range (1,grau+1):
-                    print("- Exentricidade do Vertice {:d}: {:.2f}".format(i,g.exentricidadeVertice(i)))
-                
-                print("\n- Raio do Grafo {:d}: {:.2f}".format(i, g.raioGrafo()))
-                print("\n- Diametro do Grafo {:d}: {:.2f}".format(i,g.diametroGrafo()))
-                print("\n- Centro do Grafo: ",g.centroGrafo())
+                    destino = d
+                    print("- DISTANCIA ENTRE {:d}  E {:d}: {:.2f}".format(origem,destino,g.distancia(origem,destino)))
+                    print("- CAMINHO MINIMO ENTRE",origem,"E",destino,":",g.caminhoMinimo(origem,destino))
                 
                 print()
-                for i in range (1,grau+1):
-                    print("- Centralidade de Proximidade do vértice {:d} é: {:.2f}".format(i,g.CentralidadeProxC(i)))
+                for v in range (1,grau+1):
+                    print("- EXENTRICIDADE DO VERTICE {:d}: {:.2f}".format(v,g.exentricidadeVertice(v)))
+                
+                print("\n- RAIO DO GRAFO {:d}: {:.2f}".format(v, g.raioGrafo()))
+                print("\n- DIAMETRO DO GRAFO {:d}: {:.2f}".format(v,g.diametroGrafo()))
+                print("\n- CENTRO DO GRAFO: ",g.centroGrafo())
+                
+                print()
+                for v in range (1,grau+1):
+                    print("- CENTRALIDADE DE PROXIMIDADE DO VERTICE{:d}: {:.2f}".format(v,g.CentralidadeProxC(v)))
                     
-        elif escolha == '14':
+        elif escolha == '16':
             break
         
         else:

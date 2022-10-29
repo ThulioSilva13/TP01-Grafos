@@ -18,14 +18,14 @@ class Grafo:
         self.grafo[destino -1].append([origem, peso])
     
     def imprimirListaAdjacencia(self):
-        print("\n-------------------------------------------------------------------------")
-        print("REPRESENTAÇÃO POR LISTA DE ADJACÊNCIA")
-        print("-------------------------------------------------------------------------")
         for i in range(self.vertices):
-            print(f'{i+1}:', end='  ')
-            for j in self.grafo[i]:
-                print(f'{j}  ->', end='  ')
-            print('')
+            print(f"  [ {i+1} ] ->",end=" ")
+            tam = len(self.grafo[i])
+            for j in range (tam):
+                if j == tam-1:
+                    print(self.grafo[i][j])
+                else:
+                    print(self.grafo[i][j]," ->", end=' ')
     
     def ordemGrafo(self):
         # quantidade de vertices do grafo
@@ -35,8 +35,9 @@ class Grafo:
         # quantidade de arestas do grafo
         tamanho = 0
         for i in range(self.vertices):
-            for j in self.grafo[i]:
-                tamanho+=1
+            #for j in self.grafo[i]:
+            #    tamanho+=1
+            tamanho += len(self.grafo[i])
         return int(tamanho/2) #/ 2 pois como nao orientado cada aresta aparece duas vezes na lista
     
     def encontrarVizinhos(self, idVertice):
@@ -159,9 +160,7 @@ class Grafo:
         return(c)
        
     def floydWarshall(self):
-        print("\n-------------------------------------------------------------------------")
-        print("MATRIZES FLOYD-WARSHALL")
-        print("-------------------------------------------------------------------------")
+        
         v = self.vertices
         self.dt = [[0 for i in range (self.vertices)] for j in range (v)] 
         self.rot = [[0 for i in range (self.vertices)] for j in range (v)] 
@@ -173,12 +172,9 @@ class Grafo:
 
         #inicializar matriz dt(L) e a matriz rot(R) 
         for i in range (v):
-            
-            # i = id_vertice -
-            
             vizinhos = self.encontrarVizinhos(i+1) 
             pesos = self.encontrarPesoVizinhos(i+1)
-             
+ 
             for j in range (v):
                 if i==j:
                     self.dt[i][j] = 0
@@ -190,9 +186,8 @@ class Grafo:
                     else:
                         self.dt[i][j] = math.inf
                         self.rot[i][j] =  0
-                       
-        print("\nINICIALIZAÇÃO:") 
-        
+        '''              
+        # inicialização da matrizes
         print("\n - MATRIZ DT:")
         for i in range (v):
             print("   [",end = "")
@@ -206,8 +201,7 @@ class Grafo:
         for i in range (v):
             print("  ",end = " ")
             print(self.rot[i])
-        print("\n-------------------------------------------------------------------------")
-        
+        '''       
         #tentar caminho intermediario
         for k in range(v):
             for i in range(v):
@@ -216,10 +210,9 @@ class Grafo:
                         self.dt[i][j] = (self.dt[i][k] + self.dt[k][j])
                         self.rot[i][j] = self.rot[k][j]
         
-        
-        print("\nRESULTADO FINAL") 
-        
-        print("\n - MATRIZ DT:")
+    def imprimirMatrizesFloydWarshall(self):
+        v = self.vertices
+        print("\n-- MATRIZ DT:")
         for i in range (v):
             print("   [",end = "")
             for j in range (v):
@@ -228,7 +221,7 @@ class Grafo:
                 else:
                     print("{:.2f},".format(self.dt[i][j]), end = " ")
                 
-        print("\n - MATRIZ ROT:")
+        print("\n-- MATRIZ ROT:")
         for i in range (v):
             print("  ",end = " ")
             print(self.rot[i])
