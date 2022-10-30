@@ -35,8 +35,6 @@ class Grafo:
         # quantidade de arestas do grafo
         tamanho = 0
         for i in range(self.vertices):
-            #for j in self.grafo[i]:
-            #    tamanho+=1
             tamanho += len(self.grafo[i])
         return int(tamanho/2) #/ 2 pois como nao orientado cada aresta aparece duas vezes na lista
     
