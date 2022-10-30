@@ -1,10 +1,17 @@
 import math
+<<<<<<< HEAD:grafo.py
+=======
+import json
+import sys
+
+>>>>>>> main:Grafo.py
 
 class Grafo:
     def __init__(self):
         self.vertices = 0
         self.grafo = [[]] #lista de adjacencia 
         self.dt = [[]]  
+<<<<<<< HEAD:grafo.py
         self.rot = [[]] 
         self.cicloNegativo = 0
         
@@ -14,6 +21,15 @@ class Grafo:
         for i in range(len(linhas)):
             self.insereAresta(int(linhas[i][0]), int(linhas[i][1]), float(linhas[i][2]))
         
+=======
+        self.rot = [[]]
+        self.cicloNegativo = 0 
+    
+    def inicializaListaAdjacencia(self, qtdeVertices):
+        self.vertices = qtdeVertices
+        self.grafo = [[] for i in range(self.vertices)]
+
+>>>>>>> main:Grafo.py
     def insereAresta(self, origem, destino, peso):
         #acessar primeira posicao da lista(posicao 0), por isso origin-1
         self.grafo[origem -1].append([destino, peso])
@@ -95,9 +111,15 @@ class Grafo:
         # subconjunto dos vértices de exentricidade mínima.
         centro=[]
         raio = self.raioGrafo()
+<<<<<<< HEAD:grafo.py
         for i in range(1,self.vertices+1): #+1 pois no inde 0 esta o vertice 1
             if (self.exentricidadeVertice(i) == raio): 
                 centro.append(i) #
+=======
+        for i in range(1,self.vertices+1): 
+            if (self.exentricidadeVertice(i) == raio): 
+                centro.append(i)
+>>>>>>> main:Grafo.py
         return(centro)
 
     def buscaProfundidade(self,v):
@@ -108,7 +130,10 @@ class Grafo:
         profundidade = []
         retorno = []
         self.procedimentoBP(v,exploradas, marcados, profundidade, retorno)
+<<<<<<< HEAD:grafo.py
 
+=======
+>>>>>>> main:Grafo.py
         return marcados, retorno
     
     def procedimentoBP(self,v,exploradas,marcados, profundidade, retorno):        
@@ -133,6 +158,16 @@ class Grafo:
                     exploradas.append(aresta)
                     retorno.append(aresta)
     
+<<<<<<< HEAD:grafo.py
+=======
+    def verificaCicloNegativo(self):
+        for i in range (self.vertices):
+            for j in range (self.vertices):
+                if (i==j and self.dt[i][j]<0):
+                    self.cicloNegativo = 1
+                    break
+    
+>>>>>>> main:Grafo.py
     def distancia(self,origem,destino):
         return(self.dt[origem-1][destino-1]) #-1 pois vertice 1 esta no indice 0
     
@@ -155,9 +190,16 @@ class Grafo:
         somatorio = 0
         for i in range (N):
             somatorio += self.dt[vertice-1][i] #somar a distancia do vertice a todos os outros do grafo
+<<<<<<< HEAD:grafo.py
         c = (N-1)/somatorio
         return(c)
        
+=======
+        
+        c = (N-1)/somatorio
+        return(c)
+    
+>>>>>>> main:Grafo.py
     def floydWarshall(self):
         
         v = self.vertices
@@ -209,6 +251,7 @@ class Grafo:
         for i in range (v):
             print("  ",end = " ")
             print(self.rot[i])
+<<<<<<< HEAD:grafo.py
     
     def verificaCicloNegativo(self):
         self.cicloNegativo = 0
@@ -219,3 +262,27 @@ class Grafo:
                     break
           
     
+=======
+            
+    def lerJson(self, nomeArquivo):
+        with open(nomeArquivo, 'r') as fileJson:
+            grafoJson = json.load(fileJson)
+
+        arquivo = open(nomeArquivo.replace("json", "txt"), 'w')
+        quantidadeVertices = grafoJson['data']['nodes']['length']
+
+        arquivo.write(str(quantidadeVertices))
+
+
+        grafoJson['data']['nodes']['length'] = quantidadeVertices
+        origem = grafoJson['data']['edges']['_data']
+        path = grafoJson['data']['edges']['_data']
+        for i in range(1,grafoJson['data']['edges']['length']+1):
+            origem = path[str(i)]['from']
+            destino = path[str(i)]['to']
+            label = path[str(i)]['label']
+            arquivo.write("\n"+str(origem)+" "+str(destino)+" "+ label)
+        
+        
+    
+>>>>>>> main:Grafo.py
