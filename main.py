@@ -216,7 +216,7 @@ def menuFuncoes():
             for v in range (1, grau+1):
                 vizinhos = g.encontrarVizinhos(v)
                 vizinhos.sort()
-                print("\n- VIZINHOS DO VERTICE ",v,":",vizinhos)
+                print("- VIZINHOS DO VERTICE ",v,":",vizinhos)
 
             print()
             for v in range (1, grau+1):
@@ -247,13 +247,13 @@ def menuFuncoes():
                 for v in range (1,grau+1):
                     print("- EXENTRICIDADE DO VERTICE {:d}: {:.2f}".format(v,g.exentricidadeVertice(v)))
                 
-                print("\n- RAIO DO GRAFO {:d}: {:.2f}".format(v, g.raioGrafo()))
-                print("\n- DIAMETRO DO GRAFO {:d}: {:.2f}".format(v,g.diametroGrafo()))
-                print("\n- CENTRO DO GRAFO: ",g.centroGrafo())
+                print("\n- RAIO DO GRAFO:", g.raioGrafo())
+                print("\n- DIAMETRO DO GRAFO:",g.diametroGrafo())
+                print("\n- CENTRO DO GRAFO:",g.centroGrafo())
                 
                 print()
                 for v in range (1,grau+1):
-                    print("- CENTRALIDADE DE PROXIMIDADE DO VERTICE{:d}: {:.2f}".format(v,g.CentralidadeProxC(v)))
+                    print("- CENTRALIDADE DE PROXIMIDADE DO VERTICE {:d}: {:.2f}".format(v,g.CentralidadeProxC(v)))
                     
         elif escolha == '16':
             break
