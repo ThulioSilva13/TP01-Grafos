@@ -26,10 +26,8 @@ class Arquivo:
             txt  = open(nomeArquivo.replace("json", "txt"), 'w')
             
             quantidadeVertices = grafoJson['data']['nodes']['length']
-
             txt.write(str(quantidadeVertices))
 
-            grafoJson['data']['nodes']['length'] = quantidadeVertices
             path = grafoJson['data']['edges']['_data']
             for i in range(1,grafoJson['data']['edges']['length']+1):
                 origem = path[str(i)]['from']
