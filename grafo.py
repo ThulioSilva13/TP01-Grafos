@@ -8,9 +8,11 @@ class Grafo:
         self.rot = [[]] 
         self.cicloNegativo = 0
         
-    def inicializaListaAdjacencia(self, qtdeVertices):
+    def inicializar(self, qtdeVertices, linhas):
         self.vertices = qtdeVertices
         self.grafo = [[] for i in range(self.vertices)]
+        for i in range(len(linhas)):
+            self.insereAresta(int(linhas[i][0]), int(linhas[i][1]), float(linhas[i][2]))
         
     def insereAresta(self, origem, destino, peso):
         #acessar primeira posicao da lista(posicao 0), por isso origin-1

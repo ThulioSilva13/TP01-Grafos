@@ -65,9 +65,7 @@ def receberArquivo(formato):
         inicializarGrafo(arq[0], arq[1])
 
 def inicializarGrafo(qntdVertices, linhas):
-    g.inicializaListaAdjacencia(qntdVertices)
-    for i in range(len(linhas)):
-        g.insereAresta(int(linhas[i][0]), int(linhas[i][1]), float(linhas[i][2]))
+    g.inicializar(qntdVertices, linhas)
     g.floydWarshall()
     g.verificaCicloNegativo() #já conferi se é ciclo negativo
 
