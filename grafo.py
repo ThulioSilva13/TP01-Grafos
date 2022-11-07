@@ -217,7 +217,21 @@ class Grafo:
                 if (i==j and self.dt[i][j]<0):
                     self.cicloNegativo = 1
                     break
-          
+    def verificarCiclos(self, vertice):
+        verticesVisitados = set()
+        verticesRestantes = [vertice]
+
+        while verticesRestantes:
+            verticeAtual = verticesRestantes.pop()
+            verticesVisitados.add(verticeAtual)
+
+            for vizinho in self.encontrarVizinhos(verticeAtual):
+                if vizinho in verticesVisitados:
+                    return True
+
+                verticesRestantes.append(vizinho)
+
+        return False      
     
             
     def lerJson(self, nomeArquivo):
