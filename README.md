@@ -40,7 +40,8 @@ informar a(s) aresta(s) que não faz(em) parte da árvore de busca em profundida
 
 * Determinar a centralidade de proximidade C de um vértice x
 
-### Funções adicionais 
+**Funções adicionais**
+
 * Verificar se um grafo possui ciclo
 
 * Determinar a árvore geradora mínima e escreve-lâ em um arquivo juntamente com seu peso
