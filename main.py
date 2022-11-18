@@ -2,7 +2,9 @@ from grafo import Grafo
 from arquivo import Arquivo
 
 import os.path
+import os
 
+os.system('clear') 
 g = Grafo()
 a = Arquivo()
   
@@ -21,6 +23,7 @@ def escolherArquivo():
     elif (formato=='3'):
         return
     else:
+        os.system('clear')
         print("Erro: ESCOLHA INVÁLIDA!")
         escolherArquivo()
 
@@ -32,31 +35,33 @@ def receberArquivo(formato):
         if formato == 1:
             print("Entre com o nome do arquivo com a extensão .json:", end = " ")
             nomeArquivo = input()
+            os.system('clear')
             if ".json" not in nomeArquivo:
-                print("Erro: NOME SEM EXTENSÃO .JSON")
-                escolherArquivo()
+                nomeArquivo = nomeArquivo + ".json"
+            #else:
+            if(os.path.isfile(nomeArquivo)): #coneferir se existe o aquivo
+                a.lerJson(nomeArquivo)
+                a.nome = nomeArquivo.replace("json","txt") #funcao lerJson vai gerar o arquivo txt de mesmo nome
+                flag = 0
+                print("ARQUIVO ESCOLHIDO COM SUCESSO")
             else:
-                if(os.path.isfile(nomeArquivo)): #coneferir se existe o aquivo
-                    a.lerJson(nomeArquivo)
-                    a.nome = nomeArquivo.replace("json","txt") #funcao lerJson vai gerar o arquivo txt de mesmo nome
-                    flag = 0
-                else:
-                    print("Erro: ARQUIVO NÃO ENCONTRADO")
-                    escolherArquivo()
+                print("Erro: ARQUIVO NÃO ENCONTRADO")
+                escolherArquivo()
             
         else: #se nao é 1 é 2
             print("Entre com o nome do arquivo com a extensão .txt:", end = " ")
             nomeArquivo = input()
+            os.system('clear')
             if ".txt" not in nomeArquivo:
-                print("Erro: NOME SEM EXTENSÃO .TXT")
-                escolherArquivo()
+                nomeArquivo = nomeArquivo + ".txt"
+            
+            if(os.path.isfile(nomeArquivo)): #coneferir se existe o aquivo 
+                a.nome = nomeArquivo
+                flag = 0
+                print("ARQUIVO ESCOLHIDO COM SUCESSO")
             else:
-                if(os.path.isfile(nomeArquivo)): #coneferir se existe o aquivo 
-                    a.nome = nomeArquivo
-                    flag = 0
-                else:
-                    print("Erro: ARQUIVO NÃO ENCONTRADO")
-                    escolherArquivo()
+                print("Erro: ARQUIVO NÃO ENCONTRADO")
+                escolherArquivo()
     
     if flag==0:
         #ler arquivo txt
@@ -86,7 +91,7 @@ def menuFuncoes():
         print("[ 10 ] | BUSCA EM PROFUNDIDADE")
         print("[ 11 ] | DISTANCIA E CAMINHO MINIMO")
         print("[ 12 ] | CENTRALIDADE DE PROXIMIDADE C DE UM VERTICE X")
-        print("-- novas funcionalidades ---------------------------------")
+        print("----------------------------------------------------------")
         print("[ 13 ] | VERIFICAR SE O GRAFO POSSUI CICLO")
         print("[ 14 ] | ÁRVORE GERADORA MÍNIMA")
         print("[ 15 ] | COBERTURA MÍNIMA DE VÉRTICES")
@@ -99,6 +104,7 @@ def menuFuncoes():
         print("-------------------------------------------------------------------------")
         print("Entre com sua escolha:", end = " ")
         escolha = input()
+        os.system('clear')
         
         if escolha == '1': # ordem do grafo
             print("\n- ORDEM DO GRAFO:",g.ordemGrafo())
@@ -195,16 +201,19 @@ def menuFuncoes():
                 else:  
                     print("- CENTRALIDADE DE PROXIMIDADE DO VERTICE {:d} : {:.2f}".format(v,g.centralidadeProximidade(v)))
         
-        elif escolha == '13': 
-            print("VERIFICAR SE O GRAFO POSSUI CICLO")
+        elif escolha == '13': # verificar se grafo possui ciclos
+            if (g.verificarCiclos(1)):
+                print("\n- O GRAFO TEM CICLO")
+            else:
+                print("\n- O GRAFO NÃO TEM CICLO")
             
         elif escolha == '14': 
-            print("ÁRVORE GERADORA MÍNIMA")
+            print("- ÁRVORE GERADORA MÍNIMA")
             
         elif escolha == '15': 
-            print(" COBERTURA MÍNIMA DE VÉRTICES")
+            print("- COBERTURA MÍNIMA DE VÉRTICES")
         elif escolha == '16': 
-            print("EMPARELHAMENTO MÁXIMO")
+            print("- EMPARELHAMENTO MÁXIMO")
         
         elif escolha == '17': # representação do grafo porlista de adjacência
             print("\n- REPRESENTAÇAO POR LISTA DE ADJACENCIA:\n")
@@ -248,11 +257,15 @@ def menuFuncoes():
                 print("-- SEQUENCIA VERTICES VISITADOS:",vizitados)
                 print("-- ARESTAS DE RETORNO:", retorno )
             
-            print("\n VERIFICAR SE O GRAFO POSSUI CICLO")
+            # verificar ciclos
+            if (g.verificarCiclos(1)):
+                print("\n- O GRAFO TEM CICLO")
+            else:
+                print("\n- O GRAFO NÃO TEM CICLO")
             
-            print("\n ÁRVORE GERADORA MÍNIMA")
-            print("\n COBERTURA MÍNIMA DE VÉRTICES")
-            print("\n EMPARELHAMENTO MÁXIMO")
+            print("\n- ÁRVORE GERADORA MÍNIMA")
+            print("\n- COBERTURA MÍNIMA DE VÉRTICES")
+            print("\n- EMPARELHAMENTO MÁXIMO")
 
             print()
             if (g.cicloNegativo==1):
@@ -296,6 +309,7 @@ while True:
     print("-------------------------------------------------------------------------")
     print("Entre com sua escolha:", end = " ")
     escolha = input()
+    os.system('clear')
     
     if escolha == '1':
         escolherArquivo()
