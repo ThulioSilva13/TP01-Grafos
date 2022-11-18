@@ -86,21 +86,27 @@ def menuFuncoes():
         print("[ 10 ] | BUSCA EM PROFUNDIDADE")
         print("[ 11 ] | DISTANCIA E CAMINHO MINIMO")
         print("[ 12 ] | CENTRALIDADE DE PROXIMIDADE C DE UM VERTICE X")
-        print("[ 13 ] | REPRESENTAÇAO DO GRAFO EM LISTA DE ADJACENCIA")
-        print("[ 14 ] | MATRIZES RESULTANTES FLOYD-WARSHALL")
-        print("[ 15 ] | USAR TODAS AS FUNÇOES")
-        print("\n[ 16 ] | VOLTAR PRO MENU")
+        print("-- novas funcionalidades ---------------------------------")
+        print("[ 13 ] | VERIFICAR SE O GRAFO POSSUI CICLO")
+        print("[ 14 ] | ÁRVORE GERADORA MÍNIMA")
+        print("[ 15 ] | COBERTURA MÍNIMA DE VÉRTICES")
+        print("[ 16 ] | EMPARELHAMENTO MÁXIMO")
+        print("----------------------------------------------------------")
+        print("[ 17 ] | REPRESENTAÇAO DO GRAFO EM LISTA DE ADJACENCIA")
+        print("[ 18 ] | MATRIZES RESULTANTES FLOYD-WARSHALL")
+        print("[ 19 ] | USAR TODAS AS FUNÇOES")
+        print("\n[ 20 ] | VOLTAR PRO MENU")
         print("-------------------------------------------------------------------------")
         print("Entre com sua escolha:", end = " ")
         escolha = input()
         
-        if escolha == '1':
+        if escolha == '1': # ordem do grafo
             print("\n- ORDEM DO GRAFO:",g.ordemGrafo())
       
-        elif escolha == '2':
+        elif escolha == '2': # tamanho do grafo
             print("\n- TAMANHO DO GRAFO:",g.tamanhoGrafo())
      
-        elif escolha == '3':
+        elif escolha == '3': # vizinhos de um vértice
             print("Entre com o vertice que deseja saber seus vizinhos:", end = " ")
             v = int(input())
             if (v < 1) or (v > g.ordemGrafo()):
@@ -111,7 +117,7 @@ def menuFuncoes():
                 print("\n- VIZINHOS DO VERTICE",v,":",vizinhos)
             
               
-        elif escolha == '4':
+        elif escolha == '4': # sequencia de graus do grafo
             print("Entre com o vertice que deseja saber o grau:", end = " ")
             v = int(input())
             if (v < 1) or (v > g.ordemGrafo()):
@@ -122,7 +128,7 @@ def menuFuncoes():
         elif escolha == '5':
             print("\n- SEQUENCIA DE GRAUS DO GRAFO:",g.sequenciaGrausGrafo())
              
-        elif escolha == '6':
+        elif escolha == '6': # excentricidade de um vértice
             if (g.cicloNegativo==1):
                 print("\nErro: GRAFO COM CICLO NAGATIVO! Impossivel calcular exentricidade de um vertice.") 
             else:
@@ -134,25 +140,25 @@ def menuFuncoes():
                     print("\n- EXCENTRICIDADE DO VERTICE",v,": ",g.exentricidadeVertice(v))         
         
         elif escolha == '7':
-            if (g.cicloNegativo==1):
+            if (g.cicloNegativo==1): # raio do grafo
                 print("\nErro: GRAFO COM CICLO NAGATIVO! Impossivel calcular o raio do grafo.") 
             else:
                 print("\n- RAIO DO GRAFO:", g.raioGrafo())
 
-        elif escolha == '8':
+        elif escolha == '8': # diamentro do grafo
             if (g.cicloNegativo==1):
                 print("\nErro: GRAFO COM CICLO NAGATIVO! Impossivel calcular o diametro do grafo.") 
             else:
                 print("\n- DIAMETRO DO GRAFO:",g.diametroGrafo())
 
 
-        elif escolha == '9':
+        elif escolha == '9': # centro do grafo
             if (g.cicloNegativo==1):
                 print("\nErro: GRAFO COM CICLO NAGATIVO! Impossivel calcular o centro do grafo.") 
             else:
                 print("\n- CENTRO DO GRAFO:",g.centroGrafo())
             
-        elif escolha == '10':
+        elif escolha == '10': # busca em profunidade
             print("Entre com o vertice que deseja começar a busca em profundidade:", end = " ")
             v = int(input())
             if (v < 1) or (v > g.ordemGrafo()):
@@ -160,10 +166,10 @@ def menuFuncoes():
             else:
                 vizitados, retorno = g.buscaProfundidade(v)
                 print("\n- BUSCA EM PROFUNDIDADE COMEÇANDO DO VERTICE",v,":")
-                print("-- VERTICES VISITADOS:",vizitados)
+                print("-- SEQUENCIA DE VERTICES VISITADOS:",vizitados)
                 print("-- ARESTAS DE RETORNO:", retorno )
                 
-        elif escolha == '11':
+        elif escolha == '11': # distancia e caminho minimo
             if (g.cicloNegativo==1):
                 print("\nErro: GRAFO COM CICLO NAGATIVO! Impossível calcular distancia e caminho minimo entre vertices.")  
             else:
@@ -178,7 +184,7 @@ def menuFuncoes():
                     print("\n- DISTANCIA ENTRE {:d}  E {:d} : {:.2f}".format(origem,destino,g.distancia(origem,destino)))
                     print("- CAMINHO MINIMO ENTRE",origem,"E",destino,":",g.caminhoMinimo(origem,destino))
 
-        elif escolha == '12':
+        elif escolha == '12': # centralidade de proximidade de um vértice
             if (g.cicloNegativo==1):
                 print("\nErro: GRAFO COM CICLO NAGATIVO! Impossivel calcular centralidade de proximidade de um vertice.") 
             else: 
@@ -187,18 +193,29 @@ def menuFuncoes():
                 if (v < 1) or (v > g.ordemGrafo()):
                     print("\nErro: VÉRTICE INVÁLIDO")
                 else:  
-                    print("- CENTRALIDADE DE PROXIMIDADE DO VERTICE {:d} : {:.2f}".format(v,g.CentralidadeProxC(v)))
+                    print("- CENTRALIDADE DE PROXIMIDADE DO VERTICE {:d} : {:.2f}".format(v,g.centralidadeProximidade(v)))
         
-        elif escolha == '13':
+        elif escolha == '13': 
+            print("VERIFICAR SE O GRAFO POSSUI CICLO")
+            
+        elif escolha == '14': 
+            print("ÁRVORE GERADORA MÍNIMA")
+            
+        elif escolha == '15': 
+            print(" COBERTURA MÍNIMA DE VÉRTICES")
+        elif escolha == '16': 
+            print("EMPARELHAMENTO MÁXIMO")
+        
+        elif escolha == '17': # representação do grafo porlista de adjacência
             print("\n- REPRESENTAÇAO POR LISTA DE ADJACENCIA:\n")
             g.imprimirListaAdjacencia()
         
-        elif escolha == '14':
+        elif escolha == '18': # matrizes dt e rot resultantes do Floyd-Warshall
             print("\n- MATRIZES FLOYD-WARSHALL")
             g.imprimirMatrizesFloydWarshall()
             
             
-        elif escolha == '15':
+        elif escolha == '19': # usar todas as funções
             grau = g.ordemGrafo()
             print("-------------------------------------------------------------------------")
             
@@ -228,8 +245,14 @@ def menuFuncoes():
             for v in range (1, grau+1):
                 print("\n- BUSCA EM PROFUNDIDADE COMEÇANDO DO VERTICE",v,":")
                 vizitados, retorno = g.buscaProfundidade(v)
-                print("-- VERTICES VISITADOS:",vizitados)
+                print("-- SEQUENCIA VERTICES VISITADOS:",vizitados)
                 print("-- ARESTAS DE RETORNO:", retorno )
+            
+            print("\n VERIFICAR SE O GRAFO POSSUI CICLO")
+            
+            print("\n ÁRVORE GERADORA MÍNIMA")
+            print("\n COBERTURA MÍNIMA DE VÉRTICES")
+            print("\n EMPARELHAMENTO MÁXIMO")
 
             print()
             if (g.cicloNegativo==1):
@@ -253,9 +276,9 @@ def menuFuncoes():
                 
                 print()
                 for v in range (1,grau+1):
-                    print("- CENTRALIDADE DE PROXIMIDADE DO VERTICE {:d}: {:.2f}".format(v,g.CentralidadeProxC(v)))
+                    print("- CENTRALIDADE DE PROXIMIDADE DO VERTICE {:d}: {:.2f}".format(v,g.centralidadeProximidade(v)))
                     
-        elif escolha == '16':
+        elif escolha == '20': # voltar para o menu
             break
         
         else:

@@ -150,7 +150,7 @@ class Grafo:
         caminho.reverse()
         return(caminho)
     
-    def CentralidadeProxC(self, vertice):
+    def centralidadeProximidade(self, vertice):
         N = (self.vertices)
         somatorio = 0
         for i in range (N):
@@ -217,6 +217,7 @@ class Grafo:
                 if (i==j and self.dt[i][j]<0):
                     self.cicloNegativo = 1
                     break
+                
     def verificarCiclos(self, vertice):
         verticesVisitados = set()
         verticesRestantes = [vertice]
