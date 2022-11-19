@@ -217,7 +217,8 @@ def menuFuncoes():
             print("\n-- PESO =",peso)
             
         elif escolha == '15': 
-            print("- COBERTURA MÍNIMA DE VÉRTICES")
+            print("- UMA COBERTURA MÍNIMA DE VÉRTICES:", g.coberturaVertices())
+            
         elif escolha == '16': 
             print("- EMPARELHAMENTO MÁXIMO")
         
@@ -270,7 +271,7 @@ def menuFuncoes():
                 print("\n- O GRAFO NÃO TEM CICLO")
             
             print("\n- ÁRVORE GERADORA MÍNIMA")
-            print("\n- COBERTURA MÍNIMA DE VÉRTICES")
+            print("\n- UMA COBERTURA MÍNIMA DE VÉRTICES")
             print("\n- EMPARELHAMENTO MÁXIMO")
 
             print()
@@ -328,6 +329,7 @@ while True:
     os.system('clear')
     
     if escolha == '1':
+        g = Grafo()
         escolherArquivo()
         
     elif escolha == '2':

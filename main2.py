@@ -1,5 +1,6 @@
 from grafo import Grafo
-from aresta import Aresta
+from grafo import Vertice
+from grafo import Aresta
 
 import sys
 
@@ -39,14 +40,14 @@ def algoritmoKruskal():
         feixoTransitivoD[i].append(i+1)
     
     
-    # i = 0
-    # arvoreGeradoraMinima.append(g.arestas[i])
-    # origem = g.arestas[i].getOrigem()
-    # destino = g.arestas[i].getDestino()
-    # feixoTransitivoD[origem-1] += (feixoTransitivoD[destino-1])
-    # feixoTransitivoD[destino-1] += (feixoTransitivoD[origem-1])
-    
     i = 0
+    arvoreGeradoraMinima.append(g.arestas[i])
+    origem = g.arestas[i].getOrigem()
+    destino = g.arestas[i].getDestino()
+    feixoTransitivoD[origem-1] += (feixoTransitivoD[destino-1])
+    feixoTransitivoD[destino-1] += (feixoTransitivoD[origem-1])
+    
+    i = 1
     while (True):
         
         # encerra quando qtd arestas da arvore gerador minima = |N|-1
@@ -84,21 +85,65 @@ def algoritmoKruskal():
     for i in arvoreGeradoraMinima:
         print (i.origem,"->",i.destino)
 
+def coberturaVertices():
     
+    print("\nCobertura Vértices")
     
-
+    cobertura = []
+    numCobertura = 0
+    
+    vertices = []    
+    for i in range (1,g.vertices+1):
+        vertices.append(Vertice(i, g.grauVertice(i)))
+    
+    #ordenar os vertices em ordem decrescente de graus
+    
+    vertices.sort(key=lambda vertices: vertices.grau, reverse=True)
+    # for i in vertices:
+    #      print(i.id,"=",i.grau)
+    
+    # print("vertices = ",end=" ")
+    # for i in vertices:
+    #     print(i.id,end=" ")
+    
+    arestas = g.arestas
+    
+    while len(arestas)>0:
+        #print("\narestas = ",len(arestas))
+        K = vertices.pop(0) #retira vertice com maior grau 
+        cobertura.append(K.id) #e coloca no conjunto do vertices da cobertura
+        #print("cobertura =",cobertura)
+        
+        vizinhosK = g.encontrarVizinhos(K.id)
+        #print("vizinhos =",vizinhosK)
+        
+        # remove as arestas adjacentes ao vertice K
+        for v in vizinhosK:
+            for a in arestas:
+                if (a.origem == K.id and a.destino == v):
+                    #print(a.origem,"->",a.destino)
+                    arestas.remove(a)
+                if (a.destino == K.id and a.origem == v):
+                    #print(a.origem,"->",a.destino)
+                    arestas.remove(a)
+        
+        numCobertura += 1
+    
+    print(cobertura)
+    print(numCobertura)
+            
+    
 qntdVertices, linhas  = lerArquivo()
 g = Grafo()
 
 inicializarGrafo(qntdVertices, linhas)
 
-for i in range(len(linhas)):
-    g.insereAresta(int(linhas[i][0]), int(linhas[i][1]), float(linhas[i][2]))
-
 print("\nGrafo:")
 g.imprimirListaAdjacencia()
 
 algoritmoKruskal()
+
+coberturaVertices()
                 
             
     

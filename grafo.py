@@ -1,8 +1,17 @@
 import math
 import json
 
-from aresta import Aresta
+class Vertice:
+    def __init__(self, id, grau):
+        self.id = id
+        self.grau = grau
 
+class Aresta:
+    def __init__(self, origem, destino,peso):
+        self.origem = origem
+        self.destino = destino
+        self.peso = peso
+        
 class Grafo:
     def __init__(self):
         self.vertices = 0
@@ -293,8 +302,51 @@ class Grafo:
                 
             i += 1 # olha pra proxima aresta
         
-        return [arvoreGeradoraMinima, peso]    
+        return [arvoreGeradoraMinima, peso]   
     
+    def coberturaVertices(self):
+        
+        cobertura = []
+        numCobertura = 0
+        
+        vertices = []    
+        for i in range (1,self.vertices+1):
+            vertices.append(Vertice(i, self.grauVertice(i)))
+        
+        #ordenar os vertices em ordem decrescente de graus
+        
+        vertices.sort(key=lambda vertices: vertices.grau, reverse=True)
+        # for i in vertices:
+        #      print(i.id,"=",i.grau)
+        
+        # print("vertices = ",end=" ")
+        # for i in vertices:
+        #     print(i.id,end=" ")
+        
+        arestas = self.arestas
+        
+        while len(arestas)>0:
+            #print("\narestas = ",len(arestas))
+            K = vertices.pop(0) #retira vertice com maior grau 
+            cobertura.append(K.id) #e coloca no conjunto do vertices da cobertura
+            #print("cobertura =",cobertura)
+            
+            vizinhosK = self.encontrarVizinhos(K.id)
+            #print("vizinhos =",vizinhosK)
+            
+            # remove as arestas adjacentes ao vertice K
+            for v in vizinhosK:
+                for a in arestas:
+                    if (a.origem == K.id and a.destino == v):
+                        #print(a.origem,"->",a.destino)
+                        arestas.remove(a)
+                    if (a.destino == K.id and a.origem == v):
+                        #print(a.origem,"->",a.destino)
+                        arestas.remove(a)
+            
+            numCobertura += 1
+        
+        return cobertura  
             
     def lerJson(self, nomeArquivo):
         with open(nomeArquivo, 'r') as fileJson:
