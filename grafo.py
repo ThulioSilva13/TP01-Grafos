@@ -1,9 +1,12 @@
 import math
 import json
 
+from aresta import Aresta
+
 class Grafo:
     def __init__(self):
         self.vertices = 0
+        self.arestas = []
         self.grafo = [[]] #lista de adjacencia 
         self.dt = [[]]  
         self.rot = [[]] 
@@ -14,6 +17,7 @@ class Grafo:
         self.grafo = [[] for i in range(self.vertices)]
         for i in range(len(linhas)):
             self.insereAresta(int(linhas[i][0]), int(linhas[i][1]), float(linhas[i][2]))
+            self.arestas.append(Aresta(int(linhas[i][0]), int(linhas[i][1]), float(linhas[i][2])))
         
     def insereAresta(self, origem, destino, peso):
         #acessar primeira posicao da lista(posicao 0), por isso origin-1
@@ -232,7 +236,64 @@ class Grafo:
 
                 verticesRestantes.append(vizinho)
 
-        return False      
+        return False  
+    
+    def algoritmoKruskal(self):
+    
+        self.arestas.sort(key=lambda arestas: arestas.peso) #vetor com as arestas do grafo em ordem crescente de peso
+        
+        arvoreGeradoraMinima = []
+        peso = 0
+        
+        feixoTransitivoD = [[] for i in range (self.vertices)] #verifica se tem ciclo
+        
+        # um vertice faz parte do seu proprio feixo
+        for i in range (self.vertices):
+            feixoTransitivoD[i].append(i+1)
+        
+        
+        # i = 0
+        # arvoreGeradoraMinima.append(self.arestas[i])
+        # origem = self.arestas[i].getOrigem()
+        # destino = self.arestas[i].getDestino()
+        # feixoTransitivoD[origem-1] += (feixoTransitivoD[destino-1])
+        # feixoTransitivoD[destino-1] += (feixoTransitivoD[origem-1])
+        
+        i = 0
+        while (True):
+            
+            # encerra quando qtd arestas da arvore gerador minima = |N|-1
+            if (len(arvoreGeradoraMinima) == self.vertices - 1):
+                break
+
+            origem = self.arestas[i].origem
+            destino = self.arestas[i].destino
+            
+            '''
+            
+            se o vertice de destino faz parte do feixo tarnsitivo direto do vertice de origem
+            OU
+            se o vertice de origem faz parte do feixo transitivo direto do vertice de destino
+            entao a aresta (origem,destino) forma um ciclo no grafo
+            
+            entao para conferir se NÂO forma ciclo
+            o vertice de origem não pode fazer parte do feixo transitivo direto do vertice de destino
+            E
+            o vertice de destino não pode estar parte do  feixo transitico direto do vertice de origem
+            
+            '''
+
+            if ((origem not in feixoTransitivoD[destino-1]) 
+                and (destino not in feixoTransitivoD[origem-1])): #conferi se nao forma ciclo
+                
+                arvoreGeradoraMinima.append(self.arestas[i])
+                peso += self.arestas[i].peso
+                feixoTransitivoD[origem-1] += (feixoTransitivoD[destino-1])
+                feixoTransitivoD[destino-1] += feixoTransitivoD[origem-1]
+                
+            i += 1 # olha pra proxima aresta
+        
+        return [arvoreGeradoraMinima, peso]    
     
             
     def lerJson(self, nomeArquivo):

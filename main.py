@@ -209,6 +209,12 @@ def menuFuncoes():
             
         elif escolha == '14': 
             print("- ÁRVORE GERADORA MÍNIMA")
+            arvoreGeradoraMinima, peso = g.algoritmoKruskal()
+
+            for i in arvoreGeradoraMinima:
+                print(" ",i.origem,"->",i.destino)
+            
+            print("\n-- PESO =",peso)
             
         elif escolha == '15': 
             print("- COBERTURA MÍNIMA DE VÉRTICES")
@@ -296,6 +302,16 @@ def menuFuncoes():
         
         else:
             print("Erro: ESCOLHA INVÁLIDA")
+        
+        print("\n\n-------------------------------------------------------------------------")
+        print("[ 1 ] | CONTINUAR UTILIZANDO FUNÇÕES DA BIBLIOTECA \n[ 2 ] | VOLTAR MENU")
+        print("-------------------------------------------------------------------------")
+        print("Entre com sua escolha:", end = " ")
+        escolha = input()
+        os.system('clear')
+        if (escolha != '1'):
+            break
+        
     
     
 while True:
