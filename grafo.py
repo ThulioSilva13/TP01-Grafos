@@ -19,6 +19,7 @@ class Grafo:
         self.grafo = [[]] #lista de adjacencia 
         self.dt = [[]]  
         self.rot = [[]] 
+        self.temCiclo = None
         self.cicloNegativo = 0
         
     def inicializar(self, qtdeVertices, linhas):
@@ -122,6 +123,12 @@ class Grafo:
         profundidade = []
         retorno = []
         self.procedimentoBP(v,exploradas, marcados, profundidade, retorno)
+        
+        if (len(retorno)==0): #se nao tem aresta de retorno
+            self.temCiclo = False
+        else:
+            self.temCiclo = True
+            
         return marcados, retorno
     
     def procedimentoBP(self,v,exploradas,marcados, profundidade, retorno):        
@@ -231,21 +238,27 @@ class Grafo:
                     self.cicloNegativo = 1
                     break
                 
-    def verificarCiclos(self, vertice):
-        verticesVisitados = set()
-        verticesRestantes = [vertice]
+    def verificarCiclos(self):
+        if (self.temCiclo == None):
+            self.buscaProfundidade(1)
+        
+        return self.temCiclo
+                
+    # def verificarCiclos(self, vertice):
+    #     verticesVisitados = set()
+    #     verticesRestantes = [vertice]
 
-        while verticesRestantes:
-            verticeAtual = verticesRestantes.pop()
-            verticesVisitados.add(verticeAtual)
+    #     while verticesRestantes:
+    #         verticeAtual = verticesRestantes.pop()
+    #         verticesVisitados.add(verticeAtual)
 
-            for vizinho in self.encontrarVizinhos(verticeAtual):
-                if vizinho in verticesVisitados:
-                    return True
+    #         for vizinho in self.encontrarVizinhos(verticeAtual):
+    #             if vizinho in verticesVisitados:
+    #                 return True
 
-                verticesRestantes.append(vizinho)
+    #             verticesRestantes.append(vizinho)
 
-        return False  
+    #     return False  
     
     def algoritmoKruskal(self):
     

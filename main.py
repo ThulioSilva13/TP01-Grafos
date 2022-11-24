@@ -202,7 +202,7 @@ def menuFuncoes():
                     print("- CENTRALIDADE DE PROXIMIDADE DO VERTICE {:d} : {:.2f}".format(v,g.centralidadeProximidade(v)))
         
         elif escolha == '13': # verificar se grafo possui ciclos
-            if (g.verificarCiclos(1)):
+            if (g.verificarCiclos()):
                 print("\n- O GRAFO TEM CICLO")
             else:
                 print("\n- O GRAFO NÃO TEM CICLO")
@@ -265,7 +265,7 @@ def menuFuncoes():
                 print("-- ARESTAS DE RETORNO:", retorno )
             
             # verificar ciclos
-            if (g.verificarCiclos(1)):
+            if (g.verificarCiclos()):
                 print("\n- O GRAFO TEM CICLO")
             else:
                 print("\n- O GRAFO NÃO TEM CICLO")
