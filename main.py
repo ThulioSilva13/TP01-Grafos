@@ -214,7 +214,10 @@ def menuFuncoes():
             for i in arvoreGeradoraMinima:
                 print(" ",i.origem,"->",i.destino)
             
-            print("\n-- PESO =",peso)
+            print("\n-- PESO TOTAL =",peso)
+            
+            #ecrever arvore geradora minima em um arquivo (no mesmo formato de entrada)
+            a.escreverArvoreGeradoraMinima(arvoreGeradoraMinima, peso)
             
         elif escolha == '15': 
             print("- UMA COBERTURA MÍNIMA DE VÉRTICES:", g.coberturaVertices())
@@ -270,8 +273,20 @@ def menuFuncoes():
             else:
                 print("\n- O GRAFO NÃO TEM CICLO")
             
-            print("\n- ÁRVORE GERADORA MÍNIMA")
-            print("\n- UMA COBERTURA MÍNIMA DE VÉRTICES")
+            
+            print("\n- ÁRVORE GERADORA MÍNIMA") 
+            arvoreGeradoraMinima, peso = g.algoritmoKruskal()
+
+            for i in arvoreGeradoraMinima:
+                print(" ",i.origem,"->",i.destino)
+            
+            print("\n-- PESO TOTAL =",peso)
+            
+            #ecrever arvore geradora minima em um arquivo (no mesmo formato de entrada)
+            a.escreverArvoreGeradoraMinima(arvoreGeradoraMinima, peso)
+            
+            print("\n- UMA COBERTURA MÍNIMA DE VÉRTICES:", g.coberturaVertices())
+            
             print("\n- EMPARELHAMENTO MÁXIMO")
 
             print()

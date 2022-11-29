@@ -2,6 +2,7 @@ from grafo import Grafo
 from grafo import Vertice
 from grafo import Aresta
 
+
 import sys
 
 # with open('grafoConvertido.json', 'r') as fileJson:
@@ -131,6 +132,17 @@ def coberturaVertices():
     
     print(cobertura)
     print(numCobertura)
+
+def escreverArvoreGeradoraMinima(arvoreGeradoraMinima, peso):
+    nome = "profundidade.txt"
+    nome = nome.replace(".txt", "_AGMin.txt")
+    arquivo = open(nome,'w')
+    # em uma arvore geradora minima |M| = |N|-1 => |N| = |M|+1
+    N = len(arvoreGeradoraMinima)+1
+    arquivo.write(str(N))
+    for i in arvoreGeradoraMinima:
+        arquivo.write('\n'+str(i.origem)+' '+str(i.destino)+' '+str(i.peso))
+    arquivo.close()
             
     
 qntdVertices, linhas  = lerArquivo()
@@ -141,9 +153,15 @@ inicializarGrafo(qntdVertices, linhas)
 print("\nGrafo:")
 g.imprimirListaAdjacencia()
 
-algoritmoKruskal()
+arvoreGeradoraMinima, peso = g.algoritmoKruskal()
 
-coberturaVertices()
+for i in arvoreGeradoraMinima:
+    print(" ",i.origem,"->",i.destino)
+
+print("\n-- PESO TOTAL =",peso)
+
+#ecrever arvore geradora minima em um arquivo (no mesmo formato de entrada)
+escreverArvoreGeradoraMinima(arvoreGeradoraMinima, peso)
                 
             
     

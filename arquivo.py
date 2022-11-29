@@ -56,5 +56,18 @@ class Arquivo:
         
         print("-------------------------------------------------------------------------")
         print("ARQUIVO ",nomeJson," GERADO COM SUCESSO!")
+    
+    def escreverArvoreGeradoraMinima(self,arvoreGeradoraMinima, peso):
+        nome = (self.nome).replace(".txt", "_AGMin.txt")
+        arquivo = open(nome,'w')
+        # em uma arvore geradora minima |M| = |N|-1 => |N| = |M|+1
+        N = len(arvoreGeradoraMinima)+1
+        arquivo.write(str(N))
+        for i in arvoreGeradoraMinima:
+            arquivo.write('\n'+str(i.origem)+' '+str(i.destino)+' '+str(i.peso))
+        arquivo.write('\n'+str(peso))
+        arquivo.close()
+        
+        
         
 
