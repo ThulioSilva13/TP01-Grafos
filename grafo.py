@@ -251,11 +251,11 @@ class Grafo:
         arvoreGeradoraMinima = []
         peso = 0
         
-        feixoTransitivoD = [[] for i in range (self.vertices)] #verifica se tem ciclo
+        fechoTransitivoD = [[] for i in range (self.vertices)] #verifica se tem ciclo
         
         # um vertice faz parte do seu proprio feixo
         for i in range (self.vertices):
-            feixoTransitivoD[i].append(i+1)
+            fechoTransitivoD[i].append(i+1)
         
         i = 0
         while (True):
@@ -281,13 +281,13 @@ class Grafo:
             
             '''
 
-            if ((origem not in feixoTransitivoD[destino-1]) 
-                and (destino not in feixoTransitivoD[origem-1])): #conferi se nao forma ciclo
+            if ((origem not in fechoTransitivoD[destino-1]) 
+                and (destino not in fechoTransitivoD[origem-1])): #conferi se nao forma ciclo
                 
                 arvoreGeradoraMinima.append(self.arestas[i])
                 peso += self.arestas[i].peso
-                feixoTransitivoD[origem-1] += (feixoTransitivoD[destino-1])
-                feixoTransitivoD[destino-1] += feixoTransitivoD[origem-1]
+                fechoTransitivoD[origem-1] += (fechoTransitivoD[destino-1])
+                fechoTransitivoD[destino-1] += fechoTransitivoD[origem-1]
                 
             i += 1 # olha pra proxima aresta
         
