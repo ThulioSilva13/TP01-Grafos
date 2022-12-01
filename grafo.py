@@ -355,18 +355,12 @@ class Grafo:
         verticesMatching = []
         
         arestas = self.arestas
-        
-        # #pegar as arestas do vertice
-        # arestas1 = []   
-        # for i in range (self.vertices):
-        #     arestas1.append(self.grafo[i])
-            
+                    
         # pegar os vertices do grafo e colocar em um vetor juntamente com seu grau
         vertices = []    
         for i in range (1,self.vertices+1):
             vertices.append(Vertice(i, self.grauVertice(i))) # cada vertice tem seu id e seu grau
         
-    
         #ordenar os vertices em ordem crescente de graus
         #já que queremos o máximo de arestas podemos começar com os vertices de menor grau
         vertices.sort(key=lambda vertices: vertices.grau)
@@ -381,10 +375,10 @@ class Grafo:
             vizinhos.append(self.vizinhos(i.id))
             qtdVizinhos.append(len(self.vizinhos(i.id)))
         
-        # for i in range (len(vizinhos)):
-        #     print("\nvizinhos",vertices[i].id,":",end="")
-        #     for j in range (len(vizinhos[i])):
-        #         print(vizinhos[i][j].id,",",end="")
+        for i in range (len(vizinhos)):
+            print("\nvizinhos",vertices[i].id,":",end="")
+            for j in range (len(vizinhos[i])):
+                print(vizinhos[i][j].id,",",end="")
         
             
         #while (len(arestas)>0): #enquanto tiver aresta
@@ -393,25 +387,29 @@ class Grafo:
             for i in range (len(vertices)):
                 print(vertices[i].id,",",end=" ")
             
-            # print("\nqtd vizinhos = ", qtdVizinhos)
+            print("\nqtd vizinhos = ", qtdVizinhos)
                 
             o = vertices.pop(0) #pega o vertice com menor grau
             indice_o = indice_vertices.index(o.id)
-            # print("\nvizinhos do",o.id,":",end=" ")
-            # for i in range (len(vizinhos[indice_o])):
-            #     print(vizinhos[indice_o][i].id,",",end=" ")
+            print("\nvizinhos do",o.id,":",end=" ")
+            for i in range (len(vizinhos[indice_o])):
+                print(vizinhos[indice_o][i].id,",",end=" ")
             
             if qtdVizinhos[indice_o]!=0 and o.id not in verticesMatching: #se esse vertice tiver vizinhos que nao estao no matching
-                
+        
                 while((qtdVizinhos[indice_o])>0):
                     if ((len(vizinhos[indice_o]))==0):
                         break
                     d = vizinhos[indice_o].pop(0) #pega o vizinho de menor grau
+                    print("vizinho da vez:",d.id)
                     indice_d = indice_vertices.index(d.id)
-                    if qtdVizinhos[indice_d]==0 or d.id in verticesMatching : #se esse vertice nao tiver vizinhos que nao estao no matching, olhar pra outro vertice
+                    if d.id in vertices: #se o vertice vizinho estiver disponivel ele é o escolhido
                         break
-
-                    
+                
+                if qtdVizinhos[indice_d]==0:
+                    break
+                
+                else:
                     #pegar a aresta entre o vertice de menor garu disponivel e seu vizinho de menor grau disponivel
                     for a in arestas:
                         if ((a.origem == o.id and a.destino == d.id) or (a.origem == d.id and a.destino == o.id)):
