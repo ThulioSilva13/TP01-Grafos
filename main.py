@@ -223,7 +223,14 @@ def menuFuncoes():
             print("- UMA COBERTURA MÍNIMA DE VÉRTICES:", g.coberturaVertices())
             
         elif escolha == '16': 
-            print("- EMPARELHAMENTO MÁXIMO")
+            matching = g.emparelhamentoMaximo()
+            
+            print("- EMPARELHAMENTO MÁXIMO:", end=" ")
+            for i in range (len(matching)):
+                if (i == len(matching)-1):
+                    print("({:d},{:d})".format(matching[i].origem,matching[i].destino))
+                else:
+                    print("({:d},{:d}) - ".format(matching[i].origem,matching[i].destino), end="")
         
         elif escolha == '17': # representação do grafo porlista de adjacência
             print("\n- REPRESENTAÇAO POR LISTA DE ADJACENCIA:\n")
@@ -287,8 +294,8 @@ def menuFuncoes():
             
             print("\n- UMA COBERTURA MÍNIMA DE VÉRTICES:", g.coberturaVertices())
             
-            print("\n- EMPARELHAMENTO MÁXIMO")
-
+            print("\n- EMPARELHAMENTO MÁXIMO:", end=" ")
+                      
             print()
             if (g.cicloNegativo==1):
                 print("Erro: GRAFO COM CICLO NAGATIVO! Impossivel usar o restante das funcoes.")

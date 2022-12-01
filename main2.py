@@ -153,7 +153,13 @@ inicializarGrafo(qntdVertices, linhas)
 print("\nGrafo:")
 g.imprimirListaAdjacencia()
 
-g.emparelhamentoMaximo()
+matching = g.emparelhamentoMaximo()
+print("\nEmparelhamento Maximo:", end=" ")
+for i in range (len(matching)):
+    if (i == len(matching)-1):
+        print("({:d},{:d})".format(matching[i].origem,matching[i].destino))
+    else:
+        print("({:d},{:d}) - ".format(matching[i].origem,matching[i].destino), end="")
                 
             
     

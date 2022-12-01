@@ -350,9 +350,11 @@ class Grafo:
         return vizinhos
     
     def emparelhamentoMaximo(self):
+        # Emparelhamento = conjunto E de arestas tal que nenhum vertice incide em mais de uma aresta
+        # Emarelhamento Máximo = possui o maior número de arestas possível
         
-        matching = [] # conjunto de arestas tal que nenhum vertice incide em mais de uma aresta
-        verticesMatching = []
+        matching = [] # arestas emparelhadas = aresta do conjunto E
+        saturados = [] # vertices saturados = vertice terminal de alguma aresta do cjto E
         
         arestas = self.arestas
                     
@@ -365,6 +367,9 @@ class Grafo:
         #já que queremos o máximo de arestas podemos começar com os vertices de menor grau
         vertices.sort(key=lambda vertices: vertices.grau)
         
+        # for i in range (len(vertices)):
+        #     print(vertices[i].id,",",end=" ")
+         
         indice_vertices = []
         for i in vertices:
             indice_vertices.append(i.id)
@@ -375,33 +380,34 @@ class Grafo:
             vizinhos.append(self.vizinhos(i.id))
             qtdVizinhos.append(len(self.vizinhos(i.id)))
         
-        for i in range (len(vizinhos)):
-            print("\nvizinhos",vertices[i].id,":",end="")
-            for j in range (len(vizinhos[i])):
-                print(vizinhos[i][j].id,",",end="")
         
-            
-        #while (len(arestas)>0): #enquanto tiver aresta
+        # for i in range (len(vizinhos)):
+        #     print("\nvizinhos",vertices[i].id,":",end="")
+        #     for j in range (len(vizinhos[i])):
+        #         print(vizinhos[i][j].id,",",end="")
+        
+
+        # Determinar um emparelhamento E = detreminar um conjunto independente de arestas
         while sum(qtdVizinhos)!=0 and len(vertices)>0: # se ainda tem vertice com vizinhos e ainda tem vertices sem ter sido olhado
             
-            for i in range (len(vertices)):
-                print(vertices[i].id,",",end=" ")
+            # for i in range (len(vertices)):
+            #     print(vertices[i].id,",",end=" ")
             
-            print("\nqtd vizinhos = ", qtdVizinhos)
+            # print("\nqtd vizinhos = ", qtdVizinhos)
                 
             o = vertices.pop(0) #pega o vertice com menor grau
             indice_o = indice_vertices.index(o.id)
-            print("\nvizinhos do",o.id,":",end=" ")
-            for i in range (len(vizinhos[indice_o])):
-                print(vizinhos[indice_o][i].id,",",end=" ")
+            # print("\nvizinhos do",o.id,":",end=" ")
+            # for i in range (len(vizinhos[indice_o])):
+            #     print(vizinhos[indice_o][i].id,",",end=" ")
             
-            if qtdVizinhos[indice_o]!=0 and o.id not in verticesMatching: #se esse vertice tiver vizinhos que nao estao no matching
+            if qtdVizinhos[indice_o]!=0 and o.id not in saturados: #se esse vertice tiver vizinhos que nao estao no matching
         
                 while((qtdVizinhos[indice_o])>0):
                     if ((len(vizinhos[indice_o]))==0):
                         break
                     d = vizinhos[indice_o].pop(0) #pega o vizinho de menor grau
-                    print("vizinho da vez:",d.id)
+                    #print("vizinho da vez:",d.id)
                     indice_d = indice_vertices.index(d.id)
                     if d.id in vertices: #se o vertice vizinho estiver disponivel ele é o escolhido
                         break
@@ -413,7 +419,7 @@ class Grafo:
                     #pegar a aresta entre o vertice de menor garu disponivel e seu vizinho de menor grau disponivel
                     for a in arestas:
                         if ((a.origem == o.id and a.destino == d.id) or (a.origem == d.id and a.destino == o.id)):
-                            print('\n',a.origem,'->',a.destino)
+                            #print('\n',a.origem,'->',a.destino)
                             matching.append(a)             
                     
                     #remover o vertice destino dos verices disponiveis
@@ -422,28 +428,84 @@ class Grafo:
                             vertices.remove(i)
                     
                     #pegar os vertices de origem e de destino
-                    verticesMatching.append(o.id)
-                    verticesMatching.append(d.id)
+                    saturados.append(o.id)
+                    saturados.append(d.id)
                     
                     qtdVizinhos[indice_o] = 0
                     qtdVizinhos[indice_vertices.index(d.id)] = 0
-                
-        print("\nVertices Matching:",verticesMatching)
-        print("Matching:", end=" ")
-        for i in range (len(matching)):
-            if (i == len(matching)-1):
-                print("({:d},{:d})".format(matching[i].origem,matching[i].destino))
-            else:
-                print("({:d},{:d}) - ".format(matching[i].origem,matching[i].destino), end="")
+        
+        
+        #Encontrar um caminho aumentante P em G em relação a E
+        # ideia, conferir se a origem e o destino de uma aresta emparelhada tem vizinhos que não são saturados
+        # se tiver, inverter:
+        
+        vizinhos = []
+        for i in saturados:
+            vizinhos.append(self.vizinhos(i))
+        
+        indice_saturados = []
+        for i in saturados:
+            indice_saturados.append(i)
 
-        # Emparelhamento = conjunto E de arestas tal que nenhum vertice incide em mais de uma aresta
-        # Emarelhamento Máximo = possui o maior número de arestas possível
-        #         
+ 
+        for i in range(len(matching)): #para cada aresta
+            # print("\nprocura caminho aumentante")
+            # print("\nSaturados:",saturado)
+            a = matching[i] #pega a aresta da vez
+            indice_origem = indice_saturados.index(a.origem)
+            indice_destino = indice_saturados.index(a.destino)
+            # print(a.origem,"[",indice_origem,"]->", a.destino,"[",indice_destino,"]")
+            
+            # print("len",len(vizinhos[indice_origem]))
+            # print("\nvizinhos",a.origem,"[",indice_origem,"]:",end="")
+            # for i in range (len(vizinhos[indice_origem])):
+            #     print(vizinhos[indice_origem][i].id,",",end="")
+                
+            o_vizinhos_nao = None
+            for i in vizinhos[indice_origem]:
+                if i.id not in saturados:
+                    o_vizinhos_nao = i.id
+                    break
+            
+            # print("\nvizinhos",a.destino,":",end="")
+            # for j in range (len(vizinhos[indice_destino])):
+            #     print(vizinhos[indice_destino][j].id,",",end="")
+                
+            d_vizinhos_nao = None
+            for i in vizinhos[indice_destino]:
+                if i.id not in saturados:
+                    d_vizinhos_nao = i.id
+                    break
+            
+            # se tem caminho aumentante
+            if (o_vizinhos_nao != None and d_vizinhos_nao != None):
+                
+                #novas arestas
+                for a in arestas:
+                    #nova aresta: o -> o_vizinhos_nao
+                    if ((a.origem == o.id and a.destino == o_vizinhos_nao) or (a.origem == o_vizinhos_nao and a.destino == o.id)):
+                            #print('\nadiciona:',a.origem,'->',a.destino)
+                            matching.append(a) 
+                            saturados.append(o_vizinhos_nao)
+                            saturados.append(d_vizinhos_nao)
+                            
+                    #nova aresta: d -> d_vizinhos_n
+                    if ((a.origem == o.id and a.destino == d_vizinhos_nao) or (a.origem == d_vizinhos_nao and a.destino == o.id)):
+                            #print('\nadiciona: ',a.origem,'->',a.destino)
+                            matching.append(a)
+                            saturados.append(o_vizinhos_nao)
+                            saturados.append(d_vizinhos_nao)  
+                    
+                #revome: o->d
+                for a in matching:
+                    if ((a.origem == o.id and a.destino == d.id) or (a.origem == d.id and a.destino == o.id)):
+                            #print('\nremove: ',a.origem,'->',a.destino)
+                            matching.remove(a)
+                            
+        return matching       
+             
         # ALGORITMO DE EDMONDS
-        #
-        # preliminares
-        # - aresta emparelhada = aresta do conjunto E
-        # - vertice saturado = vertice terminal de alguma aresta do cjto E
+
         # - caminho alternante = caminho cujas arestas são alternadamente emparelhadas e nao emparelhadas
         # - caminho aumentante = caminho alternate em que o vertice inicial e o final sao nao saturados
         #
