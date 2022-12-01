@@ -366,10 +366,7 @@ class Grafo:
         #ordenar os vertices em ordem crescente de graus
         #já que queremos o máximo de arestas podemos começar com os vertices de menor grau
         vertices.sort(key=lambda vertices: vertices.grau)
-        
-        # for i in range (len(vertices)):
-        #     print(vertices[i].id,",",end=" ")
-         
+
         indice_vertices = []
         for i in vertices:
             indice_vertices.append(i.id)
@@ -379,27 +376,13 @@ class Grafo:
         for i in vertices:
             vizinhos.append(self.vizinhos(i.id))
             qtdVizinhos.append(len(self.vizinhos(i.id)))
-        
-        
-        # for i in range (len(vizinhos)):
-        #     print("\nvizinhos",vertices[i].id,":",end="")
-        #     for j in range (len(vizinhos[i])):
-        #         print(vizinhos[i][j].id,",",end="")
-        
 
         # Determinar um emparelhamento E = detreminar um conjunto independente de arestas
         while sum(qtdVizinhos)!=0 and len(vertices)>0: # se ainda tem vertice com vizinhos e ainda tem vertices sem ter sido olhado
-            
-            # for i in range (len(vertices)):
-            #     print(vertices[i].id,",",end=" ")
-            
-            # print("\nqtd vizinhos = ", qtdVizinhos)
                 
             o = vertices.pop(0) #pega o vertice com menor grau
             indice_o = indice_vertices.index(o.id)
-            # print("\nvizinhos do",o.id,":",end=" ")
-            # for i in range (len(vizinhos[indice_o])):
-            #     print(vizinhos[indice_o][i].id,",",end=" ")
+
             
             if qtdVizinhos[indice_o]!=0 and o.id not in saturados: #se esse vertice tiver vizinhos que nao estao no matching
         
@@ -407,7 +390,6 @@ class Grafo:
                     if ((len(vizinhos[indice_o]))==0):
                         break
                     d = vizinhos[indice_o].pop(0) #pega o vizinho de menor grau
-                    #print("vizinho da vez:",d.id)
                     indice_d = indice_vertices.index(d.id)
                     if d.id in vertices: #se o vertice vizinho estiver disponivel ele é o escolhido
                         break
@@ -447,29 +429,16 @@ class Grafo:
         for i in saturados:
             indice_saturados.append(i)
 
- 
         for i in range(len(matching)): #para cada aresta
-            # print("\nprocura caminho aumentante")
-            # print("\nSaturados:",saturado)
             a = matching[i] #pega a aresta da vez
             indice_origem = indice_saturados.index(a.origem)
             indice_destino = indice_saturados.index(a.destino)
-            # print(a.origem,"[",indice_origem,"]->", a.destino,"[",indice_destino,"]")
-            
-            # print("len",len(vizinhos[indice_origem]))
-            # print("\nvizinhos",a.origem,"[",indice_origem,"]:",end="")
-            # for i in range (len(vizinhos[indice_origem])):
-            #     print(vizinhos[indice_origem][i].id,",",end="")
                 
             o_vizinhos_nao = None
             for i in vizinhos[indice_origem]:
                 if i.id not in saturados:
                     o_vizinhos_nao = i.id
                     break
-            
-            # print("\nvizinhos",a.destino,":",end="")
-            # for j in range (len(vizinhos[indice_destino])):
-            #     print(vizinhos[indice_destino][j].id,",",end="")
                 
             d_vizinhos_nao = None
             for i in vizinhos[indice_destino]:
@@ -484,14 +453,12 @@ class Grafo:
                 for a in arestas:
                     #nova aresta: o -> o_vizinhos_nao
                     if ((a.origem == o.id and a.destino == o_vizinhos_nao) or (a.origem == o_vizinhos_nao and a.destino == o.id)):
-                            #print('\nadiciona:',a.origem,'->',a.destino)
                             matching.append(a) 
                             saturados.append(o_vizinhos_nao)
                             saturados.append(d_vizinhos_nao)
                             
                     #nova aresta: d -> d_vizinhos_n
                     if ((a.origem == o.id and a.destino == d_vizinhos_nao) or (a.origem == d_vizinhos_nao and a.destino == o.id)):
-                            #print('\nadiciona: ',a.origem,'->',a.destino)
                             matching.append(a)
                             saturados.append(o_vizinhos_nao)
                             saturados.append(d_vizinhos_nao)  
@@ -499,28 +466,9 @@ class Grafo:
                 #revome: o->d
                 for a in matching:
                     if ((a.origem == o.id and a.destino == d.id) or (a.origem == d.id and a.destino == o.id)):
-                            #print('\nremove: ',a.origem,'->',a.destino)
                             matching.remove(a)
                             
         return matching       
-             
-        # ALGORITMO DE EDMONDS
-
-        # - caminho alternante = caminho cujas arestas são alternadamente emparelhadas e nao emparelhadas
-        # - caminho aumentante = caminho alternate em que o vertice inicial e o final sao nao saturados
-        #
-        # 1) Ler G = (N,M)
-        # 2) Determinar um emparelhamento E //detreminar um conjunto independente de arestas
-        # 3) Encontrar um caminho aumentante P em G em relação a E
-        # 4) Se um caminho aumentante P foi encontrado Então
-        #    4.1) Para cada aresta a de P    //invreter arestas emparlhadas e não emparelhadas
-        #         Se a pertence a E Então
-        #             Retirar a de E.
-        #         Se a nao pertence a E Então
-        #             Acrescentar a em E.
-        #   4.2) Voltar ao passo 3.
-        # 5) Senão
-        #   5.1) Emparelhamento máximo encontrado, fim.
     
             
     def lerJson(self, nomeArquivo):
