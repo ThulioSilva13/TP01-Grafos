@@ -153,15 +153,7 @@ inicializarGrafo(qntdVertices, linhas)
 print("\nGrafo:")
 g.imprimirListaAdjacencia()
 
-arvoreGeradoraMinima, peso = g.algoritmoKruskal()
-
-for i in arvoreGeradoraMinima:
-    print(" ",i.origem,"->",i.destino)
-
-print("\n-- PESO TOTAL =",peso)
-
-#ecrever arvore geradora minima em um arquivo (no mesmo formato de entrada)
-escreverArvoreGeradoraMinima(arvoreGeradoraMinima, peso)
+g.emparelhamentoMaximo()
                 
             
     

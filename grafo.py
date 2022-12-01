@@ -243,23 +243,7 @@ class Grafo:
             self.buscaProfundidade(1)
         
         return self.temCiclo
-                
-    # def verificarCiclos(self, vertice):
-    #     verticesVisitados = set()
-    #     verticesRestantes = [vertice]
-
-    #     while verticesRestantes:
-    #         verticeAtual = verticesRestantes.pop()
-    #         verticesVisitados.add(verticeAtual)
-
-    #         for vizinho in self.encontrarVizinhos(verticeAtual):
-    #             if vizinho in verticesVisitados:
-    #                 return True
-
-    #             verticesRestantes.append(vizinho)
-
-    #     return False  
-    
+                  
     def algoritmoKruskal(self):
     
         self.arestas.sort(key=lambda arestas: arestas.peso) #vetor com as arestas do grafo em ordem crescente de peso
@@ -272,14 +256,6 @@ class Grafo:
         # um vertice faz parte do seu proprio feixo
         for i in range (self.vertices):
             feixoTransitivoD[i].append(i+1)
-        
-        
-        # i = 0
-        # arvoreGeradoraMinima.append(self.arestas[i])
-        # origem = self.arestas[i].getOrigem()
-        # destino = self.arestas[i].getDestino()
-        # feixoTransitivoD[origem-1] += (feixoTransitivoD[destino-1])
-        # feixoTransitivoD[destino-1] += (feixoTransitivoD[origem-1])
         
         i = 0
         while (True):
@@ -360,6 +336,132 @@ class Grafo:
             numCobertura += 1
         
         return cobertura  
+    
+    def vizinhos(self, idVertice):
+        # dois vertices são vizinhos quando existe uma aresta que os liga.
+        vizinhos = []
+        for i in range(self.vertices):
+            if(i+1 == idVertice):
+                for j in range(len(self.grafo[i])):
+                    vizinho = self.grafo[i][j][0]
+                    vizinhos.append(Vertice(vizinho,self.grauVertice(vizinho)))
+                    
+        vizinhos.sort(key=lambda vertices: vertices.grau)
+        return vizinhos
+    
+    def emparelhamentoMaximo(self):
+        
+        matching = [] # conjunto de arestas tal que nenhum vertice incide em mais de uma aresta
+        verticesMatching = []
+        
+        arestas = self.arestas
+        
+        # #pegar as arestas do vertice
+        # arestas1 = []   
+        # for i in range (self.vertices):
+        #     arestas1.append(self.grafo[i])
+            
+        # pegar os vertices do grafo e colocar em um vetor juntamente com seu grau
+        vertices = []    
+        for i in range (1,self.vertices+1):
+            vertices.append(Vertice(i, self.grauVertice(i))) # cada vertice tem seu id e seu grau
+        
+    
+        #ordenar os vertices em ordem crescente de graus
+        #já que queremos o máximo de arestas podemos começar com os vertices de menor grau
+        vertices.sort(key=lambda vertices: vertices.grau)
+        
+        indice_vertices = []
+        for i in vertices:
+            indice_vertices.append(i.id)
+        
+        vizinhos = []
+        qtdVizinhos = []
+        for i in vertices:
+            vizinhos.append(self.vizinhos(i.id))
+            qtdVizinhos.append(len(self.vizinhos(i.id)))
+        
+        # for i in range (len(vizinhos)):
+        #     print("\nvizinhos",vertices[i].id,":",end="")
+        #     for j in range (len(vizinhos[i])):
+        #         print(vizinhos[i][j].id,",",end="")
+        
+            
+        #while (len(arestas)>0): #enquanto tiver aresta
+        while sum(qtdVizinhos)!=0 and len(vertices)>0: # se ainda tem vertice com vizinhos e ainda tem vertices sem ter sido olhado
+            
+            for i in range (len(vertices)):
+                print(vertices[i].id,",",end=" ")
+            
+            # print("\nqtd vizinhos = ", qtdVizinhos)
+                
+            o = vertices.pop(0) #pega o vertice com menor grau
+            indice_o = indice_vertices.index(o.id)
+            # print("\nvizinhos do",o.id,":",end=" ")
+            # for i in range (len(vizinhos[indice_o])):
+            #     print(vizinhos[indice_o][i].id,",",end=" ")
+            
+            if qtdVizinhos[indice_o]!=0 and o.id not in verticesMatching: #se esse vertice tiver vizinhos que nao estao no matching
+                
+                while((qtdVizinhos[indice_o])>0):
+                    if ((len(vizinhos[indice_o]))==0):
+                        break
+                    d = vizinhos[indice_o].pop(0) #pega o vizinho de menor grau
+                    indice_d = indice_vertices.index(d.id)
+                    if qtdVizinhos[indice_d]==0 or d.id in verticesMatching : #se esse vertice nao tiver vizinhos que nao estao no matching, olhar pra outro vertice
+                        break
+
+                    
+                    #pegar a aresta entre o vertice de menor garu disponivel e seu vizinho de menor grau disponivel
+                    for a in arestas:
+                        if ((a.origem == o.id and a.destino == d.id) or (a.origem == d.id and a.destino == o.id)):
+                            print('\n',a.origem,'->',a.destino)
+                            matching.append(a)             
+                    
+                    #remover o vertice destino dos verices disponiveis
+                    for i in vertices:
+                        if (i.id == d.id):
+                            vertices.remove(i)
+                    
+                    #pegar os vertices de origem e de destino
+                    verticesMatching.append(o.id)
+                    verticesMatching.append(d.id)
+                    
+                    qtdVizinhos[indice_o] = 0
+                    qtdVizinhos[indice_vertices.index(d.id)] = 0
+                
+        print("\nVertices Matching:",verticesMatching)
+        print("Matching:", end=" ")
+        for i in range (len(matching)):
+            if (i == len(matching)-1):
+                print("({:d},{:d})".format(matching[i].origem,matching[i].destino))
+            else:
+                print("({:d},{:d}) - ".format(matching[i].origem,matching[i].destino), end="")
+
+        # Emparelhamento = conjunto E de arestas tal que nenhum vertice incide em mais de uma aresta
+        # Emarelhamento Máximo = possui o maior número de arestas possível
+        #         
+        # ALGORITMO DE EDMONDS
+        #
+        # preliminares
+        # - aresta emparelhada = aresta do conjunto E
+        # - vertice saturado = vertice terminal de alguma aresta do cjto E
+        # - caminho alternante = caminho cujas arestas são alternadamente emparelhadas e nao emparelhadas
+        # - caminho aumentante = caminho alternate em que o vertice inicial e o final sao nao saturados
+        #
+        # 1) Ler G = (N,M)
+        # 2) Determinar um emparelhamento E //detreminar um conjunto independente de arestas
+        # 3) Encontrar um caminho aumentante P em G em relação a E
+        # 4) Se um caminho aumentante P foi encontrado Então
+        #    4.1) Para cada aresta a de P    //invreter arestas emparlhadas e não emparelhadas
+        #         Se a pertence a E Então
+        #             Retirar a de E.
+        #         Se a nao pertence a E Então
+        #             Acrescentar a em E.
+        #   4.2) Voltar ao passo 3.
+        # 5) Senão
+        #   5.1) Emparelhamento máximo encontrado, fim.
+    
             
     def lerJson(self, nomeArquivo):
         with open(nomeArquivo, 'r') as fileJson:
